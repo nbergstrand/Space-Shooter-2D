@@ -9,35 +9,52 @@ public class Player : MonoBehaviour
     [SerializeField]
     float _speed = 3.5f;
 
-    //Private bool varial to togle horizo
+    //Private bool variable to toggle horizonal wrapping
     [SerializeField]
-    bool _horizonalWrapEnabled = false;
+    bool _horizontalWrapEnabled = false;
+
+    //Private GameObject for the laser prefab
+    [SerializeField]
+    GameObject _laserPrefab;
+    
+    //private Vector3 for the spawn position of the laser 
+    [SerializeField]
+    Vector3 _laserSpawnPos;
+
+    //private float for fire rate
+    [SerializeField]
+    float _fireRate = .5f;
+    //Private variable for when check when one can fire
+    float _timeToNextShot = -1f;
         
     void Start()
     {
         //Reset the player position when game starts
-        transform.position = new Vector3(0f, 0f, 0f);
-               
+        transform.position = new Vector3(0f, -2.78f, 0f);
+        
     }
 
     void Update()
     {
-        ToggleWrapping();
-
-
         PlayerMovement();
-                
+        ToggleWrapping();
+        Shoot();
+         
     }
 
-    private void ToggleWrapping()
+    private void Shoot()
     {
-        //Toggle wrapping when Q is pushed down
-        if (Input.GetKeyDown(KeyCode.Q))
+        
+        //If space is pushed down and cooldown timer is higher then then time since game start
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _timeToNextShot)
         {
-            _horizonalWrapEnabled = !_horizonalWrapEnabled;
+            //Reset the cooldown timer to the time since game started plus fire rate
+            _timeToNextShot = Time.time + _fireRate;
+
+            //Spawn the laser at the player position plus the offset
+            Instantiate(_laserPrefab, transform.position + _laserSpawnPos, Quaternion.identity);
         }
     }
-
 
     private void PlayerMovement()
     {
@@ -49,7 +66,7 @@ public class Player : MonoBehaviour
         newPosition.y = Mathf.Clamp(newPosition.y, -3.8f, 0f);
                         
         //If wrapping is enabled move player to the opposite side of the screen
-        if (_horizonalWrapEnabled)
+        if (_horizontalWrapEnabled)
         {
             if (newPosition.x < -11.3)
             {
@@ -69,5 +86,15 @@ public class Player : MonoBehaviour
 
         //Set player position to new position 
         transform.position = newPosition;
+    }
+
+
+    private void ToggleWrapping()
+    {
+        //Toggle wrapping when Q is pushed down
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _horizontalWrapEnabled = !_horizontalWrapEnabled;
+        }
     }
 }
