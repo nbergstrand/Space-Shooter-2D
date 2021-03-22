@@ -17,15 +17,19 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject _laserPrefab;
     
-    //private Vector3 for the spawn position of the laser 
+    //Private Vector3 for the spawn position of the laser 
     [SerializeField]
     Vector3 _laserSpawnPos;
 
-    //private float for fire rate
+    //Private float for fire rate / length of cooldown
     [SerializeField]
     float _fireRate = .5f;
-    //Private variable for when check when one can fire
-    float _timeToNextShot = -1f;
+    //Private variable to check when one can fire
+    float _timeToNextShot;
+
+    //Private variable for the lives of the player
+    [SerializeField]
+    int _lives = 3;
         
     void Start()
     {
@@ -45,7 +49,7 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         
-        //If space is pushed down and cooldown timer is higher then then time since game start
+        //If space is pushed down and cooldown timer is lower than the time since game start
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _timeToNextShot)
         {
             //Reset the cooldown timer to the time since game started plus fire rate
@@ -97,4 +101,21 @@ public class Player : MonoBehaviour
             _horizontalWrapEnabled = !_horizontalWrapEnabled;
         }
     }
+
+    public void DamagePlayer()
+    {
+        _lives--;
+
+        if(_lives <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+        
+    
 }
