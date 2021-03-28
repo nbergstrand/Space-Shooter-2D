@@ -7,12 +7,7 @@ public class Enemy : MonoBehaviour
     //Private variable for enemy speed
     [SerializeField]
     float _speed;
-    
-    void Start()
-    {
-        Respawn();
-    }
-
+      
     
     void Update()
     {
@@ -24,34 +19,38 @@ public class Enemy : MonoBehaviour
         //While active move the enemy downwards
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if (transform.position.y < -5f)
+        //If the enemy is outside of the screen move it back to the top
+        if (transform.position.y < -6f)
                 Respawn();
     }
 
     void Respawn()
     {
-        //Set a random number between -9 and 9
-        float randomX = Random.Range(-9f, 9f);
-
-        //Start at random position 
-        transform.position = new Vector3(randomX, 8f, 0f);
+         //Move to random position on top of the screen
+        transform.position = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        //If the other collider has the tag Player then access the Player script attached to the object
         if(other.tag == "Player")
         {
+            //To avoid errors check if player object has the Player script attached
             if(other.GetComponent<Player>() != null)
+            {
                 other.GetComponent<Player>().DamagePlayer();
+            }
 
             Destroy(gameObject);
         }
 
-        if(other.tag == "Projectile")
+        //If other collider has the tag Projectile then first destroy the other object first and then destroy this object
+        if (other.tag == "Projectile")
         {
             Debug.Log("Hit by laser");
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
     }
+
 }

@@ -12,11 +12,7 @@ public class Player : MonoBehaviour
     //Private bool variable to toggle horizonal wrapping
     [SerializeField]
     bool _horizontalWrapEnabled = false;
-
-    //Private GameObject for the laser prefab
-    [SerializeField]
-    GameObject _laserPrefab;
-    
+        
     //Private Vector3 for the spawn position of the laser 
     [SerializeField]
     Vector3 _laserSpawnPos;
@@ -30,12 +26,42 @@ public class Player : MonoBehaviour
     //Private variable for the lives of the player
     [SerializeField]
     int _lives = 3;
+
+    //Private variable for the parent object 
+    [SerializeField]
+    Transform _projectileParent;
+
+    //Private GameObject for the laser prefab
+    [SerializeField]
+    GameObject _laserPrefab;
+
+    //Private GameObject for the tripple shot prefab
+    [SerializeField]
+    GameObject _trippleShotPrefab;
+
+    //Private bool for enabling tripple shot
+    [SerializeField]
+    bool _trippleShotEnabled = false;
+
+    //Private Vector3 for the spawn position of the tripples shot 
+    [SerializeField]
+    Vector3 _trippleShotSpawnPos;
+
+    //Private Vector3 for the spawn position of the tripples shot 
+    [SerializeField]
+    float _trippleShotTime;
+
+    SpawnManager spawnManager;
         
     void Start()
     {
         //Reset the player position when game starts
         transform.position = new Vector3(0f, -2.78f, 0f);
-        
+
+        spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        if (spawnManager == null)
+            Debug.LogError("No SpawnManager found");
+
     }
 
     void Update()
@@ -55,8 +81,20 @@ public class Player : MonoBehaviour
             //Reset the cooldown timer to the time since game started plus fire rate
             _timeToNextShot = Time.time + _fireRate;
 
-            //Spawn the laser at the player position plus the offset
-            Instantiate(_laserPrefab, transform.position + _laserSpawnPos, Quaternion.identity);
+            if(_trippleShotEnabled)
+            {
+                GameObject laser = Instantiate(_trippleShotPrefab, transform.position + _trippleShotSpawnPos, Quaternion.identity);
+
+                laser.transform.parent = _projectileParent;
+            }
+            else
+            {
+                //Spawn the laser at the player position plus the offset
+                GameObject laser = Instantiate(_laserPrefab, transform.position + _laserSpawnPos, Quaternion.identity);
+
+                laser.transform.parent = _projectileParent;
+            }
+            
         }
     }
 
@@ -114,8 +152,22 @@ public class Player : MonoBehaviour
 
     void Die()
     {
+        spawnManager.OnPlayerDeath();
         Destroy(gameObject);
     }
-        
-    
+
+
+    public void EnablePowerUp()
+    {
+        StartCoroutine(TrippleShotCooldown());
+    }
+
+    IEnumerator TrippleShotCooldown()
+    {
+        _trippleShotEnabled = true;
+        yield return new WaitForSeconds(_trippleShotTime);
+        _trippleShotEnabled = false;
+
+    }
+
 }
