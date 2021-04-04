@@ -153,8 +153,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6,
     type: 3}
-  _trippleShotPrefab: {fileID: 2130824534163317400, guid: ac9adfe5dc85b424ba0d187512d8443e,
-    type: 3}
+  _powerups:
+  - {fileID: 2130824534163317400, guid: 803d5eedf529ee04d8a87b5ae3cac20d, type: 3}
+  - {fileID: 3272255773740750460, guid: 36707c9132b94644fba28471bfd16c89, type: 3}
   _timeBetweenEnemies: 5
   _enemyParent: {fileID: 339554620}
   _powerUpParent: {fileID: 1478173558}
@@ -171,7 +172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &339554619
 GameObject:
@@ -183,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 339554620}
   m_Layer: 0
-  m_Name: Enemies
+  m_Name: Enemies_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +202,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -289,11 +290,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -21.87, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -376,7 +377,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1063838045
 GameObject:
@@ -388,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063838046}
   m_Layer: 0
-  m_Name: Projectiles
+  m_Name: Projectiles_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,7 +407,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1158207115
 GameObject:
@@ -420,6 +421,7 @@ GameObject:
   - component: {fileID: 1158207117}
   - component: {fileID: 1158207119}
   - component: {fileID: 1158207116}
+  - component: {fileID: 1158207120}
   m_Layer: 0
   m_Name: 'Player '
   m_TagString: Player
@@ -447,11 +449,14 @@ MonoBehaviour:
   _projectileParent: {fileID: 1063838046}
   _laserPrefab: {fileID: 4052550323951460747, guid: 6f23d494689eb3b4d80df192d345debd,
     type: 3}
-  _trippleShotPrefab: {fileID: 2130824534163317400, guid: ac9adfe5dc85b424ba0d187512d8443e,
+  _trippleShotPrefab: {fileID: 2551672542389156603, guid: 4d71aabe39fddbb47b8f3ce5d194911f,
     type: 3}
-  _trippleShotEnabled: 0
-  _trippleShotSpawnPos: {x: 0.37, y: 0, z: 0}
-  _trippleShotTime: 10
+  _tripleShotEnabled: 1
+  _tripleShotSpawnPos: {x: 0, y: 1.05, z: 0}
+  _tripleShotTime: 0
+  _speedBoostEnabled: 0
+  _speedBoostAmount: 6
+  _speedBoostTime: 20
 --- !u!212 &1158207117
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -542,6 +547,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.3307881, y: 4.2222843}
   m_EdgeRadius: 0
+--- !u!95 &1158207120
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158207115}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2d92f60414cd40a49a1afcde839fd3a6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1329467670
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +577,7 @@ GameObject:
   - component: {fileID: 1329467672}
   - component: {fileID: 1329467671}
   m_Layer: 0
-  m_Name: SpaceBG_Overlay
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -621,7 +645,7 @@ Transform:
   m_LocalScale: {x: 1.0739135, y: 1.1314018, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1478173557
 GameObject:
@@ -633,7 +657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1478173558}
   m_Layer: 0
-  m_Name: PowerUps
+  m_Name: PowerUps_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -651,5 +675,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

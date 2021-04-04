@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2130824534163317380}
   - component: {fileID: 2130824534163317383}
   - component: {fileID: 760437673662652560}
-  - component: {fileID: 3713094491800547269}
+  - component: {fileID: 1779572842}
   m_Layer: 0
-  m_Name: Tripple_Shot_Powerup
+  m_Name: Triple_Shot_Powerup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
---- !u!95 &3713094491800547269
+--- !u!95 &1779572842
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -153,9 +153,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130824534163317400}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4371f86fff30f6e45bb0742125657938, type: 2}
+  m_Controller: {fileID: 9100000, guid: f51f313da22700e4abdefba4beac62fa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

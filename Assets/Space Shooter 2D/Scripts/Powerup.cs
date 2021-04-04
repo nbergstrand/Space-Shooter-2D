@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Powerup : MonoBehaviour
 {
 
     [SerializeField]
     float _speed;
 
+    [SerializeField]
+    PowerupType _powerupType;
     
-
-    // Update is called once per frame
     void Update()
     {
         Movement();
@@ -19,10 +21,9 @@ public class Powerup : MonoBehaviour
 
     void Movement()
     {
-        //While active move the enemy downwards
+        
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        //If the enemy is outside of the screen move it back to the top
         if (transform.position.y < -6f)
             Destroy(gameObject);
     }
@@ -33,9 +34,20 @@ public class Powerup : MonoBehaviour
         if(collision.tag == "Player")
         {
             if(collision.GetComponent<Player>() != null)
-                collision.GetComponent<Player>().EnablePowerUp();
+            {
+                collision.GetComponent<Player>().EnablePowerup(_powerupType);
+            }
+               
 
             Destroy(gameObject);
         }
     }
+}
+
+public enum PowerupType
+{
+    tripleShot,
+    speedBoost,
+    shield
+    
 }

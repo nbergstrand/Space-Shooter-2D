@@ -22,7 +22,6 @@ public class Projectile : MonoBehaviour
             if(transform.parent == null || transform.parent.name == "Projectiles")
             {
                 Destroy(gameObject);
-
             }
             else
             {

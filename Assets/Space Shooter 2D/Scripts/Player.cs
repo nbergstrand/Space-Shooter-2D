@@ -41,15 +41,29 @@ public class Player : MonoBehaviour
 
     //Private bool for enabling tripple shot
     [SerializeField]
-    bool _trippleShotEnabled = false;
+    bool _tripleShotEnabled = false;
 
     //Private Vector3 for the spawn position of the tripples shot 
     [SerializeField]
-    Vector3 _trippleShotSpawnPos;
+    Vector3 _tripleShotSpawnPos;
 
-    //Private Vector3 for the spawn position of the tripples shot 
+    //Private float for how long the tripleshot will be active
     [SerializeField]
-    float _trippleShotTime;
+    float _tripleShotTime;
+
+
+    //Private bool for enabling speed boost
+    [SerializeField]
+    bool _speedBoostEnabled = false;
+
+    //Private bool for enabling speed boost
+    [SerializeField]
+    float _speedBoostAmount;
+
+    //Private float for how long the speed boost will be active
+    [SerializeField]
+    float _speedBoostTime;
+
 
     SpawnManager spawnManager;
         
@@ -81,9 +95,9 @@ public class Player : MonoBehaviour
             //Reset the cooldown timer to the time since game started plus fire rate
             _timeToNextShot = Time.time + _fireRate;
 
-            if(_trippleShotEnabled)
+            if(_tripleShotEnabled)
             {
-                GameObject laser = Instantiate(_trippleShotPrefab, transform.position + _trippleShotSpawnPos, Quaternion.identity);
+                GameObject laser = Instantiate(_trippleShotPrefab, transform.position + _tripleShotSpawnPos, Quaternion.identity);
 
                 laser.transform.parent = _projectileParent;
             }
@@ -100,9 +114,22 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
-      
-        //Move player based on horizonal and vertical axis input
-        Vector3 newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speed * Time.deltaTime;
+        Vector3 newPosition;
+
+        if (_speedBoostEnabled)
+        {
+            
+            newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speedBoostAmount * Time.deltaTime;
+
+        }
+        else
+        {
+
+            newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speed * Time.deltaTime;
+
+        }
+
+
 
         //Clamp y beween -3.8 - 0
         newPosition.y = Mathf.Clamp(newPosition.y, -3.8f, 0f);
@@ -157,17 +184,87 @@ public class Player : MonoBehaviour
     }
 
 
-    public void EnablePowerUp()
+    public void EnablePowerup(PowerupType powerupType)
     {
-        StartCoroutine(TrippleShotCooldown());
+        switch (powerupType)
+        {
+            case PowerupType.tripleShot:
+                StartCoroutine(TripleShotCooldown());
+                break;
+
+            case PowerupType.speedBoost:
+                StartCoroutine(SpeedBoostCooldown());
+                break;
+
+            case PowerupType.shield:
+                break;
+        }
     }
 
-    IEnumerator TrippleShotCooldown()
+    IEnumerator TripleShotCooldown()
     {
-        _trippleShotEnabled = true;
-        yield return new WaitForSeconds(_trippleShotTime);
-        _trippleShotEnabled = false;
+        _tripleShotEnabled = true;
+        yield return new WaitForSeconds(_tripleShotTime);
+        _tripleShotEnabled = false;
 
+    }
+
+    IEnumerator SpeedBoostCooldown()
+    {
+        _speedBoostEnabled = true;
+        yield return new WaitForSeconds(_speedBoostTime);
+        _speedBoostEnabled = false;
+    }
+
+
+    private void OpenSecretDoor(int doorNumber)
+    {
+        switch(doorNumber)
+        {
+            case 1:
+                Debug.Log("Door Number 1");
+                break;
+            case 2:
+                Debug.Log("Door Number 2");
+                break;
+            case 3:
+                Debug.Log("Door Number 3");
+                break;
+            case 4:
+                Debug.Log("Door Number 4");
+                break;
+            case 5:
+                Debug.Log("Door Number 5");
+                break;
+            case 6:
+                Debug.Log("Door Number 6");
+                break;
+            case 7:
+                Debug.Log("Door Number 7");
+                break;
+            case 8:
+                Debug.Log("Door Number 9");
+                break;
+            case 9:
+                Debug.Log("Door Number 9");
+                break;
+            case 10:
+                Debug.Log("Door Number 10");
+                break;
+            case 11:
+                Debug.Log("Door Number 11");
+                break;
+            case 12:
+                Debug.Log("Door Number 12");
+                break;
+
+            case default:
+                Debug.Log("This is a window");
+                break;
+
+        }
     }
 
 }
+
+       
