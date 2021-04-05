@@ -70,16 +70,26 @@ public class Player : MonoBehaviour
     GameObject _shieldGO;
 
 
+    [SerializeField]
+    int _score;
+
+
     SpawnManager spawnManager;
+    UIManager uiManager;
         
     void Start()
     {
         //Reset the player position when game starts
         transform.position = new Vector3(0f, -2.78f, 0f);
 
-        spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        spawnManager = GameObject.Find("Game_Manager").GetComponent<SpawnManager>();
+        uiManager = GameObject.Find("Game_Manager").GetComponent<UIManager>();
+
         if (spawnManager == null)
-            Debug.LogError("No SpawnManager found");
+            Debug.LogError("No Spawn_Manager found");
+
+        if (uiManager == null)
+            Debug.LogError("No UI_Manager found");
 
     }
 
@@ -183,6 +193,8 @@ public class Player : MonoBehaviour
 
         _lives--;
 
+        uiManager.UpdateLivesUI(_lives);
+
         if(_lives <= 0)
         {
             Die();
@@ -192,6 +204,7 @@ public class Player : MonoBehaviour
     void Die()
     {
         spawnManager.OnPlayerDeath();
+        uiManager.ShowGameOver();
         Destroy(gameObject);
     }
 
@@ -235,9 +248,8 @@ public class Player : MonoBehaviour
 
         _shieldEnabled = true;
     }
-    
-    
 
+    
 }
 
        

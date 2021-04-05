@@ -7,10 +7,24 @@ public class Enemy : MonoBehaviour
     //Private variable for enemy speed
     [SerializeField]
     float _speed;
-      
-    
+
+    [SerializeField]
+    int _scoreAmount;
+
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        if (gameManager == null)
+            Debug.Log("GameManager not found");
+
+    }
+
     void Update()
     {
+
         EnemyMovement();
     }
 
@@ -47,7 +61,8 @@ public class Enemy : MonoBehaviour
         //If other collider has the tag Projectile then first destroy the other object first and then destroy this object
         if (other.tag == "Projectile")
         {
-            Debug.Log("Hit by laser");
+
+            gameManager.IncreaseScore(_scoreAmount);
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

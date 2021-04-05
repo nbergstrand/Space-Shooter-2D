@@ -50,13 +50,18 @@ public class SpawnManager : MonoBehaviour
             //Set random X position
             Vector3 randomPos = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
 
-            //Spawn the enemy
-            GameObject enemy = Instantiate(_enemyPrefab, randomPos, Quaternion.identity);
+            if(_isPlayerAlive)
+            {
+                //Spawn the enemy
+                GameObject enemy = Instantiate(_enemyPrefab, randomPos, Quaternion.identity);
+                //Set the parent of the game object to be the parent transform
+                enemy.transform.parent = _enemyParent;
 
-            //Set the parent of the game object to be the parent transform
-            enemy.transform.parent = _enemyParent;
+            }
 
-           
+
+
+
         }
         
     }
