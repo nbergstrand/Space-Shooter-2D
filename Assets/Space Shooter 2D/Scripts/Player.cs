@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour 
+public class Player : MonoBehaviour
 {
     //Private variable for player speed 
     [SerializeField]
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     //Private bool variable to toggle horizonal wrapping
     [SerializeField]
     bool _horizontalWrapEnabled = false;
-        
+
     //Private Vector3 for the spawn position of the laser 
     [SerializeField]
     Vector3 _laserSpawnPos;
@@ -51,7 +51,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     float _tripleShotTime;
 
-
     //Private bool for enabling speed boost
     [SerializeField]
     bool _speedBoostEnabled = false;
@@ -63,6 +62,12 @@ public class Player : MonoBehaviour
     //Private float for how long the speed boost will be active
     [SerializeField]
     float _speedBoostTime;
+
+    [SerializeField]
+    bool _shieldEnabled;
+
+    [SerializeField]
+    GameObject _shieldGO;
 
 
     SpawnManager spawnManager;
@@ -169,6 +174,13 @@ public class Player : MonoBehaviour
 
     public void DamagePlayer()
     {
+        if(_shieldEnabled)
+        {
+            _shieldGO.SetActive(false);
+            _shieldEnabled = false;
+            return;
+        }
+
         _lives--;
 
         if(_lives <= 0)
@@ -197,6 +209,7 @@ public class Player : MonoBehaviour
                 break;
 
             case PowerupType.shield:
+                EnableShield();
                 break;
         }
     }
@@ -216,54 +229,14 @@ public class Player : MonoBehaviour
         _speedBoostEnabled = false;
     }
 
-
-    private void OpenSecretDoor(int doorNumber)
+    private void EnableShield()
     {
-        switch(doorNumber)
-        {
-            case 1:
-                Debug.Log("Door Number 1");
-                break;
-            case 2:
-                Debug.Log("Door Number 2");
-                break;
-            case 3:
-                Debug.Log("Door Number 3");
-                break;
-            case 4:
-                Debug.Log("Door Number 4");
-                break;
-            case 5:
-                Debug.Log("Door Number 5");
-                break;
-            case 6:
-                Debug.Log("Door Number 6");
-                break;
-            case 7:
-                Debug.Log("Door Number 7");
-                break;
-            case 8:
-                Debug.Log("Door Number 9");
-                break;
-            case 9:
-                Debug.Log("Door Number 9");
-                break;
-            case 10:
-                Debug.Log("Door Number 10");
-                break;
-            case 11:
-                Debug.Log("Door Number 11");
-                break;
-            case 12:
-                Debug.Log("Door Number 12");
-                break;
+         _shieldGO.SetActive(true);
 
-            case default:
-                Debug.Log("This is a window");
-                break;
-
-        }
+        _shieldEnabled = true;
     }
+    
+    
 
 }
 

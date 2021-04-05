@@ -74,7 +74,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 randomPos = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
 
             //Random number for the power up array
-            int randomPowerup = Random.Range(0, 2);
+            int randomPowerup = Random.Range(0, 3);
 
             //Spawn the enemy
             GameObject powerUp = Instantiate(_powerups[randomPowerup], randomPos, Quaternion.identity);
