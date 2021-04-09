@@ -11,15 +11,33 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     int _scoreAmount;
 
-    private GameManager gameManager;
+    bool isDead = false;
+
+    GameManager _gameManager;
+
+    Animator _animator;
 
     private void Start()
     {
-        gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
-        if (gameManager == null)
+        _animator = GetComponent<Animator>();
+
+        if (_animator == null)
+        {
+            Debug.Log("No Animator found");
+        }
+
+
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        
+
+        if (_gameManager == null)
+        {
             Debug.Log("GameManager not found");
 
+        }
+
+       
     }
 
     void Update()
@@ -34,7 +52,7 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
         //If the enemy is outside of the screen move it back to the top
-        if (transform.position.y < -6f)
+        if (transform.position.y < -6f && !isDead)
                 Respawn();
     }
 
@@ -46,25 +64,30 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //If the other collider has the tag Player then access the Player script attached to the object
         if(other.tag == "Player")
         {
-            //To avoid errors check if player object has the Player script attached
             if(other.GetComponent<Player>() != null)
             {
                 other.GetComponent<Player>().DamagePlayer();
             }
 
-            Destroy(gameObject);
+            isDead = true;
+            _animator.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+
+            Destroy(gameObject, 3f);
         }
 
-        //If other collider has the tag Projectile then first destroy the other object first and then destroy this object
         if (other.tag == "Projectile")
         {
 
-            gameManager.IncreaseScore(_scoreAmount);
+            _gameManager.IncreaseScore(_scoreAmount);
+            _animator.SetTrigger("OnEnemyDeath");
+            isDead = true;
+            _speed = 0;
+
             Destroy(other.gameObject);
-            Destroy(gameObject);
+            Destroy(gameObject, 3f);
         }
     }
 

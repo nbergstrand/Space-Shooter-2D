@@ -28,14 +28,11 @@ public class SpawnManager : MonoBehaviour
     bool _isPlayerAlive = true;
 
 
-    void Start()
+    public void StartSpawning()
     {
-        //At game start run the coroutine for the spawning enemies
         StartCoroutine(SpawnEnemyRoutine());
-
-        //At game start run the coroutine for the spawning powerups
+                
         StartCoroutine(SpawnPowerUpRoutine());
-
     }
 
     

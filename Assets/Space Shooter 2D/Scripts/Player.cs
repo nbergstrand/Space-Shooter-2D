@@ -69,6 +69,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject _shieldGO;
 
+    [SerializeField]
+    GameObject _rightEngineDamage;
+
+    [SerializeField]
+    GameObject _leftEngineDamage;
+
 
     [SerializeField]
     int _score;
@@ -194,11 +200,36 @@ public class Player : MonoBehaviour
         _lives--;
 
         uiManager.UpdateLivesUI(_lives);
+               
 
         if(_lives <= 0)
         {
             Die();
         }
+
+        ShowDamage(_lives);
+    }
+
+    void ShowDamage(int lives)
+    {
+        switch(lives)
+        {
+            case 2:
+                _rightEngineDamage.SetActive(true);
+                _leftEngineDamage.SetActive(false);
+                break;
+
+            case 1:
+                _leftEngineDamage.SetActive(true);
+                break;
+
+            default:
+                _rightEngineDamage.SetActive(false);
+                _leftEngineDamage.SetActive(false);
+                break;
+        }
+        
+
     }
 
     void Die()
