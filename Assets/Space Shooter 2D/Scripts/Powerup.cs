@@ -12,7 +12,21 @@ public class Powerup : MonoBehaviour
 
     [SerializeField]
     PowerupType _powerupType;
-    
+
+    AudioManager audioManager;
+
+    private void Start()
+    {
+        audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+
+        if(audioManager == null)
+        {
+            Debug.Log("No AudioManager found");
+        }
+              
+
+    }
+
     void Update()
     {
         Movement();
@@ -33,12 +47,14 @@ public class Powerup : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            if(collision.GetComponent<Player>() != null)
+            audioManager.PlayPowerUpSound();
+
+            if (collision.GetComponent<Player>() != null)
             {
                 collision.GetComponent<Player>().EnablePowerup(_powerupType);
             }
-               
 
+            GetComponent<BoxCollider2D>().enabled = false;
             Destroy(gameObject);
         }
     }

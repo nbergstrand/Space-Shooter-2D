@@ -11,16 +11,32 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     int _scoreAmount;
 
+    [SerializeField]
+    GameObject _projectile;
+
+    [SerializeField]
+    Vector3 _projectileSpawnPos;
+
+    float _timeToNextShot;
+
     bool isDead = false;
+
+    Transform _projectileParent;
 
     GameManager _gameManager;
 
     Animator _animator;
 
+    AudioManager audioManager;
+
     private void Start()
     {
 
+        _timeToNextShot = Time.time + Random.Range(2, 4);
+
         _animator = GetComponent<Animator>();
+
+        _projectileParent = GameObject.Find("Projectiles_parent").GetComponent<Transform>();
 
         if (_animator == null)
         {
@@ -37,11 +53,20 @@ public class Enemy : MonoBehaviour
 
         }
 
-       
+        audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+
+        if (audioManager == null)
+        {
+            Debug.Log("No AudioManager found");
+        }
+
+
     }
 
     void Update()
     {
+        if(!isDead)
+            Shoot();
 
         EnemyMovement();
     }
@@ -54,6 +79,24 @@ public class Enemy : MonoBehaviour
         //If the enemy is outside of the screen move it back to the top
         if (transform.position.y < -6f && !isDead)
                 Respawn();
+    }
+
+    private void Shoot()
+    {
+
+        if (Time.time > _timeToNextShot)
+        {
+            //Reset the cooldown timer to the time since game started plus fire rate
+            _timeToNextShot = Time.time + Random.Range(2 , 4);
+                        
+            GameObject laser = Instantiate(_projectile, transform.position + _projectileSpawnPos, Quaternion.identity);
+
+            laser.transform.parent = _projectileParent;
+                          
+
+            audioManager.PlayLaserSound();
+
+        }
     }
 
     void Respawn()
@@ -70,7 +113,8 @@ public class Enemy : MonoBehaviour
             {
                 other.GetComponent<Player>().DamagePlayer();
             }
-
+            audioManager.PlayExplosionSound();
+            GetComponent<BoxCollider2D>().enabled = false;
             isDead = true;
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
@@ -80,12 +124,13 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Projectile")
         {
+            audioManager.PlayExplosionSound();
 
             _gameManager.IncreaseScore(_scoreAmount);
             _animator.SetTrigger("OnEnemyDeath");
             isDead = true;
             _speed = 0;
-
+            GetComponent<BoxCollider2D>().enabled = false;
             Destroy(other.gameObject);
             Destroy(gameObject, 3f);
         }

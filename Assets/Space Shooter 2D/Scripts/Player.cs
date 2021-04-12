@@ -74,28 +74,36 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject _leftEngineDamage;
-
-
+    
     [SerializeField]
     int _score;
-
+        
+    AudioSource audioSource;
 
     SpawnManager spawnManager;
     UIManager uiManager;
+    AudioManager audioManager;
         
     void Start()
     {
         //Reset the player position when game starts
         transform.position = new Vector3(0f, -2.78f, 0f);
 
+        audioSource = GetComponent<AudioSource>();
+
+
         spawnManager = GameObject.Find("Game_Manager").GetComponent<SpawnManager>();
         uiManager = GameObject.Find("Game_Manager").GetComponent<UIManager>();
+        audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
 
         if (spawnManager == null)
-            Debug.LogError("No Spawn_Manager found");
+            Debug.LogError("No SpawnManager found");
 
         if (uiManager == null)
-            Debug.LogError("No UI_Manager found");
+            Debug.LogError("No UIManager found");
+
+        if (audioManager == null)
+            Debug.LogError("No AudioManager found");
 
     }
 
@@ -129,6 +137,8 @@ public class Player : MonoBehaviour
 
                 laser.transform.parent = _projectileParent;
             }
+
+            audioManager.PlayLaserSound();
             
         }
     }
@@ -280,7 +290,18 @@ public class Player : MonoBehaviour
         _shieldEnabled = true;
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "EnemyProjectile")
+        {
+            DamagePlayer();
+
+            Destroy(other.gameObject);
+        }
+
+       
+    }
+
 }
 
        

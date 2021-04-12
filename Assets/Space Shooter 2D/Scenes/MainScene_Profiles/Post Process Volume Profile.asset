@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4780054051998378612
+--- !u!114 &-8363312481700347869
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21,18 +21,18 @@ MonoBehaviour:
     value: 10
   threshold:
     overrideState: 0
-    value: 1
+    value: 0.95
   softKnee:
     overrideState: 1
-    value: 0
+    value: 0.783
   clamp:
     overrideState: 0
     value: 65472
   diffusion:
-    overrideState: 0
-    value: 7
+    overrideState: 1
+    value: 7.88
   anamorphicRatio:
-    overrideState: 0
+    overrideState: 1
     value: 0
   color:
     overrideState: 0
@@ -60,8 +60,8 @@ MonoBehaviour:
   m_Name: Post Process Volume Profile
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: -4780054051998378612}
   - {fileID: 7535389794909217819}
+  - {fileID: -8363312481700347869}
 --- !u!114 &7535389794909217819
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -80,14 +80,14 @@ MonoBehaviour:
     value: 1
   gradingMode:
     overrideState: 1
-    value: 1
+    value: 0
   externalLut:
     overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
     overrideState: 1
-    value: 1
+    value: 2
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: -50.1
+    value: -30.8
   tint:
     overrideState: 0
     value: -16.4
@@ -133,7 +133,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 0.55
+    value: 0.94
   contrast:
     overrideState: 0
     value: 0

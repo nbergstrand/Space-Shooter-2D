@@ -11,14 +11,21 @@ public class Astroid : MonoBehaviour
     GameObject explosion;
 
     SpawnManager spawnManager;
+    AudioManager audioManager;
 
     private void Start()
     {
         spawnManager = GameObject.Find("Game_Manager").GetComponent<SpawnManager>();
+        audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
 
         if(spawnManager == null)
         {
             Debug.Log("No spawn manager found");
+        }
+
+        if (audioManager == null)
+        {
+            Debug.Log("No audio manager found");
         }
     }
 
@@ -33,8 +40,12 @@ public class Astroid : MonoBehaviour
 
         if (collision.tag == "Projectile")
         {
+            GetComponent<CircleCollider2D>().enabled = false;
             GameObject explosionGO = Instantiate(explosion, transform.position, Quaternion.identity);
             spawnManager.StartSpawning();
+
+            audioManager.PlayExplosionSound();
+
             Destroy(collision.gameObject);
             Destroy(explosionGO, 1.7f);
             Destroy(gameObject, 1f);

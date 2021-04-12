@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour
     //Private variable for the speed of the projectile
     [SerializeField]
     private float _speed;
+
+    
     
     void Update()
     {
@@ -19,7 +21,7 @@ public class Projectile : MonoBehaviour
         //If projectile is outside of the screen destroy the object
         if (transform.position.y > 10f)
         {
-            if(transform.parent == null || transform.parent.name == "Projectiles")
+            if(transform.parent == null || transform.parent.name == "Projectiles_parent")
             {
                 Destroy(gameObject);
             }
@@ -35,6 +37,7 @@ public class Projectile : MonoBehaviour
         //While gameobject is active move it upwards
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
     }
+    
 
     
 }
