@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Text _restartText;
 
+    
+
     bool _playerIsDead;
 
     GameManager gameManager;
@@ -58,6 +60,22 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             _gameOverText.gameObject.SetActive(false);
             yield return new WaitForSeconds(0.25f);
+        }
+    }
+
+    [SerializeField]
+    GameObject _pauseMenu;
+
+    public void TogglePauseMenu()
+    {
+        if (_pauseMenu.activeSelf != true)
+        {
+            _pauseMenu.SetActive(true);
+
+        }
+        else
+        {
+            _pauseMenu.SetActive(false);
         }
     }
 

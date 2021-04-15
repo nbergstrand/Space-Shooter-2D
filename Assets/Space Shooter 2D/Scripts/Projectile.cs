@@ -30,6 +30,17 @@ public class Projectile : MonoBehaviour
                 Destroy(transform.parent.gameObject);
             }
         }
+        else if (transform.position.y < -10f)
+        {
+            if (transform.parent == null || transform.parent.name == "Projectiles_parent")
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(transform.parent.gameObject);
+            }
+        }
     }
 
     void MoveProjectile()

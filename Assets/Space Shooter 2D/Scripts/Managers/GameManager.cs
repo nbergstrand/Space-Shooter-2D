@@ -6,14 +6,18 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
-    int _score;
-    UIManager uiManager;
+    private int _score;
+    private UIManager _uiManager;
 
-    bool _playerIsDead;
+    private bool _playerIsDead;
+
+    //private bool to check if game is paused
+    private  bool _isPaused;
+
 
     private void Start()
     {
-        uiManager = GameObject.Find("Game_Manager").GetComponent<UIManager>();
+        _uiManager = GameObject.Find("Game_Manager").GetComponent<UIManager>();
 
     }
 
@@ -24,6 +28,12 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+
     }
 
     public void GameOver()
@@ -35,6 +45,29 @@ public class GameManager : MonoBehaviour
     {
         _score += score;
 
-        uiManager.UpdateScoreUI(_score);
+        _uiManager.UpdateScoreUI(_score);
     }
+
+    public void Pause()
+    {
+        _isPaused = !_isPaused;
+        _uiManager.TogglePauseMenu();
+        if (_isPaused)
+        {
+
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+
+        }
+               
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();        
+    }
+
 }

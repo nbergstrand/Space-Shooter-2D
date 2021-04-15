@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     Vector3 _projectileSpawnPos;
-
+        
     float _timeToNextShot;
 
     bool isDead = false;
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
 
-        _timeToNextShot = Time.time + Random.Range(2, 4);
+        _timeToNextShot = Time.time + Random.Range(3, 6);
 
         _animator = GetComponent<Animator>();
 
