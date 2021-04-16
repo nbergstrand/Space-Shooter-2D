@@ -21,6 +21,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Text _restartText;
 
+
+    [SerializeField]
+    GameObject _pauseMenu;
+
     //***PHASE 1: FRAMEWORK***///
 
     [SerializeField]
@@ -76,8 +80,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    GameObject _pauseMenu;
 
     public void TogglePauseMenu()
     {

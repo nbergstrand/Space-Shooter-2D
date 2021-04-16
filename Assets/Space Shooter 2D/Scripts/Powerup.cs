@@ -64,6 +64,7 @@ public enum PowerupType
 {
     tripleShot,
     speedBoost,
-    shield
+    shield,
+    ammo
     
 }

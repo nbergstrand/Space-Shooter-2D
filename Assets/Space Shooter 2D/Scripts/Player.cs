@@ -173,6 +173,7 @@ public class Player : MonoBehaviour
                
 
             _ammoAmount--;
+            
             uiManager.UpdateAmmoUI(_ammoAmount);
 
 
@@ -330,13 +331,15 @@ public class Player : MonoBehaviour
                 StartCoroutine(TripleShotCooldown());
                 break;
 
-          /*  case PowerupType.speedBoost:
-                StartCoroutine(SpeedBoostCooldown());
-                break;*/
+            case PowerupType.ammo:
+                _ammoAmount = 15;
+                uiManager.UpdateAmmoUI(_ammoAmount);
+                break;
 
             case PowerupType.shield:
                 EnableShield();
                 break;
+
         }
     }
 
