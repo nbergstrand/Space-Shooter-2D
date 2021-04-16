@@ -54,14 +54,11 @@ public class Player : MonoBehaviour
     //Private bool for enabling speed boost
     [SerializeField]
     bool _speedBoostEnabled = false;
+       
 
-    //Private bool for enabling speed boost
+    /*Private float for how long the speed boost will be active
     [SerializeField]
-    float _speedBoostAmount;
-
-    //Private float for how long the speed boost will be active
-    [SerializeField]
-    float _speedBoostTime;
+    float _speedBoostTime;*/
 
     [SerializeField]
     bool _shieldEnabled;
@@ -83,7 +80,19 @@ public class Player : MonoBehaviour
     SpawnManager spawnManager;
     UIManager uiManager;
     AudioManager audioManager;
-        
+
+    //***PHASE 1: FRAMEWORK***///
+
+    /*THRUSTERS GFX*/
+    [SerializeField]
+    GameObject _thrusters;
+    
+    [SerializeField]
+    float _speedBoostAmount;
+
+    //*******************************************************************//
+
+
     void Start()
     {
         //Reset the player position when game starts
@@ -109,11 +118,31 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        ActivateThrusters();
+       
         PlayerMovement();
         ToggleWrapping();
         Shoot();
          
     }
+
+    //**********************************THRUSTERS****************************//
+    private void ActivateThrusters()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _speedBoostEnabled = true;
+            _thrusters.SetActive(true);
+        }
+        
+        if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _speedBoostEnabled = false;
+            _thrusters.SetActive(false);
+        }
+    }
+    //********************************************************************//
+
 
     private void Shoot()
     {
@@ -258,9 +287,9 @@ public class Player : MonoBehaviour
                 StartCoroutine(TripleShotCooldown());
                 break;
 
-            case PowerupType.speedBoost:
+          /*  case PowerupType.speedBoost:
                 StartCoroutine(SpeedBoostCooldown());
-                break;
+                break;*/
 
             case PowerupType.shield:
                 EnableShield();
@@ -276,12 +305,12 @@ public class Player : MonoBehaviour
 
     }
 
-    IEnumerator SpeedBoostCooldown()
+   /* IEnumerator SpeedBoostCooldown()
     {
         _speedBoostEnabled = true;
         yield return new WaitForSeconds(_speedBoostTime);
         _speedBoostEnabled = false;
-    }
+    }*/
 
     private void EnableShield()
     {
