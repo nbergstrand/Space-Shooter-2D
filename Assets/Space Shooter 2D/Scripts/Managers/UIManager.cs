@@ -21,7 +21,17 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     Text _restartText;
 
-    
+    //***PHASE 1: FRAMEWORK***///
+
+    [SerializeField]
+    Text _ammoText;
+
+    [SerializeField]
+    GameObject _noAmmoWarningText;
+
+    //**********************************//
+
+
 
     bool _playerIsDead;
 
@@ -42,6 +52,8 @@ public class UIManager : MonoBehaviour
         _currentLivesImage.sprite = _livesSprites[lives];
     }
 
+   
+
     public void ShowGameOver()
     {
         _playerIsDead = true;
@@ -52,6 +64,7 @@ public class UIManager : MonoBehaviour
 
     }
 
+   
     IEnumerator TextFlicker()
     {
         while(_playerIsDead)
@@ -78,6 +91,31 @@ public class UIManager : MonoBehaviour
             _pauseMenu.SetActive(false);
         }
     }
+    //************AMMO COUNT*************************//
+    public void UpdateAmmoUI(int ammoAmount)
+    {
+        _ammoText.text = ammoAmount + " /  15";
+
+    }
+
+    public void NoAmmo()
+    {
+        StartCoroutine(ShowAmmoNoWarning());
+    }
+
+    IEnumerator ShowAmmoNoWarning()
+    {
+        int count = 4;
+        while(count > 1 )
+        {
+            _noAmmoWarningText.SetActive(true);
+            yield return new WaitForSeconds(.5f);
+            _noAmmoWarningText.SetActive(false);
+            yield return new WaitForSeconds(.5f);
+            count--;
+        }
+    }
+    //************************************************//
 
     
 }

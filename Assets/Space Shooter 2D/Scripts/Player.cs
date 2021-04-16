@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
     //Private variable for player speed 
@@ -83,15 +84,20 @@ public class Player : MonoBehaviour
 
     //***PHASE 1: FRAMEWORK***///
 
-    /*THRUSTERS GFX*/
+    /*Thrusters*/
     [SerializeField]
     GameObject _thrusters;
     
     [SerializeField]
     float _speedBoostAmount;
 
-    //Shield strength
+    /*Shield strength*/
      int _shieldStrength;
+
+
+    /*Ammo count*/
+    int _ammoAmount = 15;
+
 
     //*******************************************************************//
 
@@ -158,7 +164,22 @@ public class Player : MonoBehaviour
             //Reset the cooldown timer to the time since game started plus fire rate
             _timeToNextShot = Time.time + _fireRate;
 
-            if(_tripleShotEnabled)
+            //***AMMO COUNT**//
+            if (_ammoAmount <= 0)
+            {
+                uiManager.NoAmmo();
+                return;
+            }
+               
+
+            _ammoAmount--;
+            uiManager.UpdateAmmoUI(_ammoAmount);
+
+
+
+            //**************************//
+
+            if (_tripleShotEnabled)
             {
                 GameObject laser = Instantiate(_trippleShotPrefab, transform.position + _tripleShotSpawnPos, Quaternion.identity);
 
