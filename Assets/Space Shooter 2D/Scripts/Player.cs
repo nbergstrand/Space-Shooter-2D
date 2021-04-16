@@ -90,6 +90,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     float _speedBoostAmount;
 
+    //Shield strength
+     int _shieldStrength;
+
     //*******************************************************************//
 
 
@@ -118,6 +121,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+       
+
         ActivateThrusters();
        
         PlayerMovement();
@@ -231,8 +236,25 @@ public class Player : MonoBehaviour
     {
         if(_shieldEnabled)
         {
-            _shieldGO.SetActive(false);
-            _shieldEnabled = false;
+            _shieldStrength--;
+
+            switch(_shieldStrength)
+            {
+                case 2:
+                    _shieldGO.GetComponent<Renderer>().material.color = Color.blue;
+                    break;
+
+                case 1:
+                    _shieldGO.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+
+                case 0:
+                    _shieldGO.SetActive(false);
+                    _shieldEnabled = false;
+                    break;
+            }
+            
+            
             return;
         }
 
@@ -314,8 +336,11 @@ public class Player : MonoBehaviour
 
     private void EnableShield()
     {
-         _shieldGO.SetActive(true);
+        _shieldStrength = 3;
+         _shieldGO.GetComponent<Renderer>().material.color = Color.green;
 
+
+         _shieldGO.SetActive(true);
         _shieldEnabled = true;
     }
 
