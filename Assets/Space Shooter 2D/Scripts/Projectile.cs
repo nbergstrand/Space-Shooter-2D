@@ -7,9 +7,10 @@ public class Projectile : MonoBehaviour
     //Private variable for the speed of the projectile
     [SerializeField]
     private float _speed;
+    
+       
+   
 
-    
-    
     void Update()
     {
         MoveProjectile();
@@ -43,12 +44,14 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    void MoveProjectile()
+    private void MoveProjectile()
     {
-        //While gameobject is active move it upwards
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
-    }
-    
+          
+        transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
 
-    
+    }
+
+
+  
+
 }

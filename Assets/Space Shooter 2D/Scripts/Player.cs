@@ -340,6 +340,15 @@ public class Player : MonoBehaviour
                 EnableShield();
                 break;
 
+            /*HEALTH COLLEACTABLE*/
+            case PowerupType.health:
+                if (_lives >= 3)
+                    return;
+                _lives++;
+                uiManager.UpdateLivesUI(_lives);
+                ShowDamage(_lives);
+                break;
+            /********************************************/
         }
     }
 
