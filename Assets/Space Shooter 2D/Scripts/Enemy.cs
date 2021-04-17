@@ -19,7 +19,11 @@ public class Enemy : MonoBehaviour
         
     float _timeToNextShot;
 
-    bool isDead = false;
+    bool _isDead = false;
+    public bool IsDead
+    {
+        get { return _isDead; }
+    }
 
     Transform _projectileParent;
 
@@ -65,7 +69,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if(!isDead)
+        if(!_isDead)
             Shoot();
 
         EnemyMovement();
@@ -77,8 +81,8 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
         //If the enemy is outside of the screen move it back to the top
-        if (transform.position.y < -6f && !isDead)
-                Respawn();
+        if (transform.position.y < -6f && !_isDead)
+                Destroy(gameObject);
     }
 
     private void Shoot()
@@ -99,11 +103,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Respawn()
+    /*void Respawn()
     {
          //Move to random position on top of the screen
         transform.position = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -115,7 +119,7 @@ public class Enemy : MonoBehaviour
             }
             audioManager.PlayExplosionSound();
             GetComponent<BoxCollider2D>().enabled = false;
-            isDead = true;
+            _isDead = true;
             _animator.SetTrigger("OnEnemyDeath");
             _speed = 0;
 
@@ -128,12 +132,14 @@ public class Enemy : MonoBehaviour
 
             _gameManager.IncreaseScore(_scoreAmount);
             _animator.SetTrigger("OnEnemyDeath");
-            isDead = true;
+            _isDead = true;
             _speed = 0;
             GetComponent<BoxCollider2D>().enabled = false;
             Destroy(other.gameObject);
             Destroy(gameObject, 3f);
         }
     }
+
+    
 
 }

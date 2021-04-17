@@ -8,9 +8,22 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float _speed;
     
-       
-   
+    [SerializeField]
+    Transform target;
+    //**Secondary Fire Powerup**//
 
+    [SerializeField]
+    bool _homing;
+
+    bool _gotTarget;
+    
+    void Start()
+    {
+        //To prevent checking for enemy every frame restrict it by invoking 0.25 second
+        if(_homing == true)
+            InvokeRepeating("UpdateTarget", 0f, 0.25f);
+    }
+    //**************************************************************************//
     void Update()
     {
         MoveProjectile();
@@ -46,12 +59,76 @@ public class Projectile : MonoBehaviour
 
     private void MoveProjectile()
     {
-          
-        transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
+                 
+
+        if(target == null)
+        {
+            transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
+
+        }
+        else
+        {
+            //**Secondary Fire Powerup**//
+
+            //Ensure that the game object is rotated towards the target
+            transform.up = target.position - transform.position;
+
+            //if enemy is dead stop following target
+            if (target.GetComponent<Enemy>().IsDead)
+                target = null;
+
+            //Move towards target
+            transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
+            
+
+            //***************************************************//
+        }
 
     }
+    //**Secondary Fire Powerup**//
 
+    private void UpdateTarget()
+    {
+        //If target has already been found do not check again
+        if (_gotTarget)
+            return;
 
-  
+        //Look for all enemy objects in the scene
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        //Initliaste with with Mathf.inifinity to ensure the distance is not to short
+        float shortestDistance = Mathf.Infinity;
+
+        GameObject nearestEnemy = null;
+
+        //Iterate through each enemy in the seen and find the closest one
+        foreach (GameObject enemy in enemies)
+        {
+            //Skip to next if enemy is dead already
+            if (enemy.GetComponent<Enemy>().IsDead)
+                continue;
+
+            float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+
+            if (distanceToEnemy < shortestDistance)
+            {
+                shortestDistance = distanceToEnemy;
+
+                nearestEnemy = enemy;
+            }
+        }
+
+        //If an enemy has been found set target
+        if (nearestEnemy != null)
+        {
+            target = nearestEnemy.transform;
+            _gotTarget = true;
+        }
+        else
+        {
+            target = null;
+        }
+    }
+    //***********************************************************//
 
 }

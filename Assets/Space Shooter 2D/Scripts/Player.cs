@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     //Private float for fire rate / length of cooldown
     [SerializeField]
-    float _fireRate = .5f;
+    float _fireRate;
     //Private variable to check when one can fire
     float _timeToNextShot;
 
@@ -39,11 +39,7 @@ public class Player : MonoBehaviour
     //Private GameObject for the tripple shot prefab
     [SerializeField]
     GameObject _trippleShotPrefab;
-
-    //Private bool for enabling tripple shot
-    [SerializeField]
-    bool _tripleShotEnabled = false;
-
+      
     //Private Vector3 for the spawn position of the tripples shot 
     [SerializeField]
     Vector3 _tripleShotSpawnPos;
@@ -82,6 +78,8 @@ public class Player : MonoBehaviour
     UIManager uiManager;
     AudioManager audioManager;
 
+   
+
     //***PHASE 1: FRAMEWORK***///
 
     /*Thrusters*/
@@ -93,11 +91,15 @@ public class Player : MonoBehaviour
 
     /*Shield strength*/
      int _shieldStrength;
-
-
+    
     /*Ammo count*/
     int _ammoAmount = 15;
 
+    /*Secondary Fire Powerup*/ 
+    private FireMode firemode;
+
+    [SerializeField]
+    GameObject _homingPrefab;
 
     //*******************************************************************//
 
@@ -109,6 +111,7 @@ public class Player : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
+        firemode = FireMode.laser;
 
         spawnManager = GameObject.Find("Game_Manager").GetComponent<SpawnManager>();
         uiManager = GameObject.Find("Game_Manager").GetComponent<UIManager>();
@@ -164,35 +167,37 @@ public class Player : MonoBehaviour
             //Reset the cooldown timer to the time since game started plus fire rate
             _timeToNextShot = Time.time + _fireRate;
 
-            //***AMMO COUNT**//
+            
             if (_ammoAmount <= 0)
             {
                 uiManager.NoAmmo();
                 return;
             }
                
-
             _ammoAmount--;
             
             uiManager.UpdateAmmoUI(_ammoAmount);
 
-
-
-            //**************************//
-
-            if (_tripleShotEnabled)
+            /***********Secondary Fire Powerup**********/
+            switch (firemode)
             {
-                GameObject laser = Instantiate(_trippleShotPrefab, transform.position + _tripleShotSpawnPos, Quaternion.identity);
+                case FireMode.laser:
+                    GameObject laser = Instantiate(_laserPrefab, transform.position + _tripleShotSpawnPos, Quaternion.identity);
+                    laser.transform.parent = _projectileParent;
+                    break;
 
-                laser.transform.parent = _projectileParent;
-            }
-            else
-            {
-                //Spawn the laser at the player position plus the offset
-                GameObject laser = Instantiate(_laserPrefab, transform.position + _laserSpawnPos, Quaternion.identity);
+                case FireMode.tripleShot:
+                    GameObject tripleShot = Instantiate(_trippleShotPrefab, transform.position + _laserSpawnPos, Quaternion.identity);
+                    tripleShot.transform.parent = _projectileParent;
+                    break;
 
-                laser.transform.parent = _projectileParent;
+                case FireMode.homing:
+                    GameObject homing = Instantiate(_homingPrefab, transform.position + _laserSpawnPos, Quaternion.identity);
+                    homing.transform.parent = _projectileParent;
+                    break;
+
             }
+            //********************************************//
 
             audioManager.PlayLaserSound();
             
@@ -339,8 +344,7 @@ public class Player : MonoBehaviour
             case PowerupType.shield:
                 EnableShield();
                 break;
-
-            /*HEALTH COLLEACTABLE*/
+                            
             case PowerupType.health:
                 if (_lives >= 3)
                     return;
@@ -348,24 +352,41 @@ public class Player : MonoBehaviour
                 uiManager.UpdateLivesUI(_lives);
                 ShowDamage(_lives);
                 break;
-            /********************************************/
+            
+            /***********Secondary Fire Powerup**********/
+
+            case PowerupType.homing:
+                StartCoroutine(HomingCooldown());
+                break;
+          /******************************************/
+            }
         }
-    }
 
-    IEnumerator TripleShotCooldown()
-    {
-        _tripleShotEnabled = true;
-        yield return new WaitForSeconds(_tripleShotTime);
-        _tripleShotEnabled = false;
+        IEnumerator TripleShotCooldown()
+        {
+            firemode = FireMode.tripleShot;
+            yield return new WaitForSeconds(_tripleShotTime);
+            firemode = FireMode.laser;
 
-    }
+        }
 
-   /* IEnumerator SpeedBoostCooldown()
-    {
-        _speedBoostEnabled = true;
-        yield return new WaitForSeconds(_speedBoostTime);
-        _speedBoostEnabled = false;
-    }*/
+         /***********Secondary Fire Powerup**********/
+        IEnumerator HomingCooldown()
+        {
+            float currentFirerate = _fireRate;
+            firemode = FireMode.homing;
+            yield return new WaitForSeconds(5f);
+            firemode = FireMode.laser;
+
+        }
+         /******************************************/
+
+        /* IEnumerator SpeedBoostCooldown()
+         {
+             _speedBoostEnabled = true;
+             yield return new WaitForSeconds(_speedBoostTime);
+             _speedBoostEnabled = false;
+         }*/
 
     private void EnableShield()
     {
@@ -391,4 +412,10 @@ public class Player : MonoBehaviour
 
 }
 
+public enum FireMode
+{
+    laser,
+    tripleShot,
+    homing
+}
        

@@ -66,6 +66,7 @@ public enum PowerupType
     speedBoost,
     shield,
     ammo,
-    health
+    health,
+    homing
     
 }

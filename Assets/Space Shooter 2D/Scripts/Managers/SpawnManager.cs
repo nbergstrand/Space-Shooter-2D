@@ -28,6 +28,11 @@ public class SpawnManager : MonoBehaviour
     bool _isPlayerAlive = true;
 
 
+    /**********************Framework***/
+    [SerializeField]
+    GameObject[] _superPowerups;
+
+
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
@@ -78,11 +83,26 @@ public class SpawnManager : MonoBehaviour
             //Random number for the power up array
             int randomPowerup = Random.Range(0, _powerups.Length);
 
-            //Spawn the enemy
-            GameObject powerUp = Instantiate(_powerups[randomPowerup], randomPos, Quaternion.identity);
+            /******Secondary Fire Powerup****/
+            int superPowerupChance = Random.Range(0, 15);
+            int randomSuper = Random.Range(0, _superPowerups.Length);
+            if (superPowerupChance == 10)
+            {
+                GameObject superPowerUp = Instantiate(_superPowerups[randomSuper], randomPos, Quaternion.identity);
 
-            //Set the parent of the game object to be the parent transform
-            powerUp.transform.parent = _powerUpParent;
+                superPowerUp.transform.parent = _powerUpParent;
+
+            }
+            else
+            {
+                GameObject powerUp = Instantiate(_powerups[randomPowerup], randomPos, Quaternion.identity);
+
+                powerUp.transform.parent = _powerUpParent;
+            }
+            /*******************************************/
+
+            
+           
             
             
         }
