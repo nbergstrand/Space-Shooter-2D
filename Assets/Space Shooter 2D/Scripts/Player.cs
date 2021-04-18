@@ -102,6 +102,12 @@ public class Player : MonoBehaviour
 
     //*******************************************************************//
 
+    //************************PHASE 2************************///
+
+    bool reverseControl = false;
+
+
+    //*******************************************************************//
 
     void Start()
     {
@@ -215,14 +221,29 @@ public class Player : MonoBehaviour
 
         if (_speedBoostEnabled)
         {
-            
-            newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speedBoostAmount * Time.deltaTime;
+            if(!reverseControl)
+            {
+                newPosition = transform.position + new Vector3(-Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"), 0f) * _speedBoostAmount * Time.deltaTime;
+
+            }
+            else
+            {
+                newPosition = transform.position + new Vector3(-Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"), 0f) * _speedBoostAmount * Time.deltaTime;
+
+            }
 
         }
         else
         {
+            if (!reverseControl)
+            {
+                newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speed * Time.deltaTime;
+            }
+            else
+            {
+                newPosition = transform.position + new Vector3(-Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"), 0f) * _speed * Time.deltaTime;
 
-            newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speed * Time.deltaTime;
+            }
 
         }
 
@@ -364,6 +385,10 @@ public class Player : MonoBehaviour
                 thrustersCurrentCharge = thrustersMaxCharge;
                 break;
 
+            case PowerupType.reverse:
+                StartCoroutine(ReverseCoolDown());
+                break;
+
         }
     }
 
@@ -390,6 +415,14 @@ public class Player : MonoBehaviour
         thrustersCurrentCharge -= Time.deltaTime;
         float thrustersPercent = thrustersCurrentCharge / thrustersMaxCharge;
         uiManager.UpdateThrusterChargeUI(thrustersPercent);
+    }
+
+    IEnumerator ReverseCoolDown()
+    {
+        reverseControl = true;
+        yield return new WaitForSeconds(10f);
+        reverseControl = false;
+
     }
 
     private void EnableShield()

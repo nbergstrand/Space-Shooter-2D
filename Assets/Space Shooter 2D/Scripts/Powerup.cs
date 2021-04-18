@@ -67,6 +67,7 @@ public enum PowerupType
     shield,
     ammo,
     health,
-    homing
+    homing,
+    reverse
     
 }
