@@ -200,6 +200,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40718936}
   m_CullTransparentMesh: 0
+--- !u!1 &142485794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 142485795}
+  - component: {fileID: 142485797}
+  - component: {fileID: 142485796}
+  m_Layer: 5
+  m_Name: Wave_Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &142485795
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142485794}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1580751472}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &142485796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142485794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: d0e5a708c6efab34c935980043899e70, type: 3}
+    m_FontSize: 100
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 100
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: WAVE 1
+--- !u!222 &142485797
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142485794}
+  m_CullTransparentMesh: 0
 --- !u!1 &179047299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,7 +1638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 6
-  _horizontalWrapEnabled: 0
+  _horizontalWrapEnabled: 1
   _laserSpawnPos: {x: 0, y: 1.05, z: 0}
   _fireRate: 0.2
   _lives: 3
@@ -2483,6 +2561,7 @@ RectTransform:
   - {fileID: 1874833416}
   - {fileID: 282130858}
   - {fileID: 285149498}
+  - {fileID: 142485795}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2612,7 +2691,8 @@ MonoBehaviour:
   _pauseMenu: {fileID: 509129372}
   _ammoText: {fileID: 1874833417}
   _noAmmoWarningText: {fileID: 282130857}
-  chargeFillImage: {fileID: 382496311}
+  _chargeFillImage: {fileID: 382496311}
+  _waveText: {fileID: 142485796}
 --- !u!114 &1635214615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2633,12 +2713,52 @@ MonoBehaviour:
   - {fileID: 5917947690756468522, guid: 31deae7fd232cfe4b92ef19d644636e0, type: 3}
   - {fileID: 8618646074209863929, guid: 6678a24c3e68e794c939540c28e4ef1c, type: 3}
   - {fileID: 3272255773740750460, guid: 36707c9132b94644fba28471bfd16c89, type: 3}
-  _timeBetweenEnemies: 4
   _enemyParent: {fileID: 339554620}
   _powerUpParent: {fileID: 1063838046}
   _isPlayerAlive: 1
   _superPowerups:
   - {fileID: 3483720770542218005, guid: 3ecbdb4f98b333b4285dcbd414933d30, type: 3}
+  waves:
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 5
+    spawnTime: 4
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 8
+    spawnTime: 3
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 12
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 15
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 20
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 25
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 30
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 35
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 40
+    spawnTime: 2
+  - enemies:
+    - {fileID: 1194706264131357179, guid: c8ab0bad8cb7e9b49bf52c9359edbbe6, type: 3}
+    amountOfEnemiesInWave: 45
+    spawnTime: 2
 --- !u!114 &1635214616
 MonoBehaviour:
   m_ObjectHideFlags: 0

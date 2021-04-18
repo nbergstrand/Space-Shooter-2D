@@ -11,8 +11,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     GameObject[] _powerups;
 
-    [SerializeField]
-    float _timeBetweenEnemies;
+   /* [SerializeField]
+    float _timeBetweenEnemies;*/
         
     //Private  trasnform for the enemy parent 
     [SerializeField]
@@ -31,10 +31,31 @@ public class SpawnManager : MonoBehaviour
     /**********************Framework****************/
     [SerializeField]
     GameObject[] _superPowerups;
+    /************************************************/
 
+    /*************Phase 2**********************/
+    UIManager _uiManager;
+
+    [SerializeField]
+    SpawnWave[] waves;
+
+    int currentWave = 0;
+    /************************************************/
+
+
+    private void Start()
+    {
+        _uiManager = GetComponent<UIManager>();
+
+        if (_uiManager == null)
+            Debug.Log("No UIManager found for SpawnManager");
+    }
 
     public void StartSpawning()
     {
+
+        _uiManager.ShowWaveText(1);
+        Debug.Log(waves.Length);
         StartCoroutine(SpawnEnemyRoutine());
                 
         StartCoroutine(SpawnPowerUpRoutine());
@@ -44,28 +65,40 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
-        while(_isPlayerAlive)
+        int enemyInWave = 0;
+
+        while(_isPlayerAlive && currentWave < waves.Length )
         {
             
-            //Wait amount in seconds before continuing 
-            yield return new WaitForSeconds(_timeBetweenEnemies);
-            //Set random X position
+            //**********WAVE SYSTEM*******************************//
+            yield return new WaitForSeconds(waves[currentWave].spawnTime);
+
             Vector3 randomPos = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
 
-            if(_isPlayerAlive)
+            enemyInWave++;
+            int randomEnemy = Random.Range(0, waves[currentWave].enemies.Length);
+
+            if (_isPlayerAlive)
             {
-                //Spawn the enemy
-                GameObject enemy = Instantiate(_enemyPrefab, randomPos, Quaternion.identity);
-                //Set the parent of the game object to be the parent transform
+                GameObject enemy = Instantiate(waves[currentWave].enemies[randomEnemy], randomPos, Quaternion.identity);
                 enemy.transform.parent = _enemyParent;
 
             }
 
+            if(enemyInWave >= waves[currentWave].amountOfEnemiesInWave)
+            {
+                currentWave++;
+                yield return new WaitForSeconds(10f);
+                _uiManager.ShowWaveText(currentWave + 1);
+                enemyInWave = 0;
+            }
 
 
 
         }
-        
+        _uiManager.ShowWaveText(100);
+        /************************************************/
+
     }
 
     IEnumerator SpawnPowerUpRoutine()

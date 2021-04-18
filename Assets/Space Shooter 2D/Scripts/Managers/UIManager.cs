@@ -20,8 +20,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     Text _restartText;
-
-
+    
     [SerializeField]
     GameObject _pauseMenu;
 
@@ -34,11 +33,17 @@ public class UIManager : MonoBehaviour
     GameObject _noAmmoWarningText;
 
     [SerializeField]
-    Image chargeFillImage;
+    Image _chargeFillImage;
 
     //**********************************//
 
+    /******************PHASE 2************/
+    [SerializeField]
+    Text _waveText;
 
+    //float _fadeSpeed = 0.1f;
+
+    //**********************************//
 
     bool _playerIsDead;
 
@@ -48,6 +53,8 @@ public class UIManager : MonoBehaviour
     {
         gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
     }
+
+   
 
     public void UpdateScoreUI(int score)
     {
@@ -129,9 +136,45 @@ public class UIManager : MonoBehaviour
 
     public void UpdateThrusterChargeUI(float percent)
     {
-        chargeFillImage.fillAmount = percent;
+        _chargeFillImage.fillAmount = percent;
     }
 
     //******************************************************//
 
+    /*********************Wave System*****************************/
+    public void ShowWaveText(int wave)
+    {
+        if(wave != 100)
+        {
+            StartCoroutine("TextFade");
+            _waveText.text = "WAVE " + wave;
+        }
+        else
+        {
+            StopCoroutine("TextFade");
+            _waveText.color = new Color(_waveText.color.r, _waveText.color.g, _waveText.color.b, 1);
+            _waveText.text = "YOU WON!";
+        }
+       
+    }
+
+    IEnumerator TextFade()
+    {
+
+        float progress = 0;
+        _waveText.color = new Color(_waveText.color.r, _waveText.color.g, _waveText.color.b, 1);
+        yield return new WaitForSeconds(1f);
+
+        while (progress <= 1)
+        {
+            float alphaValue = Mathf.Lerp(1, 0, progress);
+            _waveText.color = new Color(_waveText.color.r, _waveText.color.g, _waveText.color.b, alphaValue);
+            progress += Time.deltaTime;
+            yield return null;
+        }
+
+        _waveText.color = new Color (_waveText.color.r, _waveText.color.g, _waveText.color.b, 0);
+
+    }
+    //******************************************************//
 }
