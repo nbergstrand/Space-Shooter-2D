@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,11 +50,7 @@ public class Player : MonoBehaviour
     //Private bool for enabling speed boost
     [SerializeField]
     bool _speedBoostEnabled = false;
-       
-
-    /*Private float for how long the speed boost will be active
-    [SerializeField]
-    float _speedBoostTime;*/
+         
 
     [SerializeField]
     bool _shieldEnabled;
@@ -73,7 +68,6 @@ public class Player : MonoBehaviour
     int _score;
         
     AudioSource audioSource;
-
     SpawnManager spawnManager;
     UIManager uiManager;
     AudioManager audioManager;
@@ -100,6 +94,11 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject _homingPrefab;
+
+    /*Thruster: Scaling Bar HUD*/
+    float thrustersMaxCharge = 20f;
+    float thrustersCurrentCharge;
+
 
     //*******************************************************************//
 
@@ -130,10 +129,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-       
-
+      
         ActivateThrusters();
-       
         PlayerMovement();
         ToggleWrapping();
         Shoot();
@@ -143,7 +140,15 @@ public class Player : MonoBehaviour
     //**********************************THRUSTERS****************************//
     private void ActivateThrusters()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        SpeedBoostCooldown();
+                     
+        if(thrustersCurrentCharge <= 0 && _thrusters.activeSelf == true)
+        {
+            _speedBoostEnabled = false;
+            _thrusters.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && thrustersCurrentCharge > 0)
         {
             _speedBoostEnabled = true;
             _thrusters.SetActive(true);
@@ -286,7 +291,6 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
-
         uiManager.UpdateLivesUI(_lives);
                
 
@@ -300,6 +304,7 @@ public class Player : MonoBehaviour
 
     void ShowDamage(int lives)
     {
+        
         switch(lives)
         {
             case 2:
@@ -327,7 +332,6 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     public void EnablePowerup(PowerupType powerupType)
     {
         switch (powerupType)
@@ -344,7 +348,7 @@ public class Player : MonoBehaviour
             case PowerupType.shield:
                 EnableShield();
                 break;
-                            
+
             case PowerupType.health:
                 if (_lives >= 3)
                     return;
@@ -352,41 +356,42 @@ public class Player : MonoBehaviour
                 uiManager.UpdateLivesUI(_lives);
                 ShowDamage(_lives);
                 break;
-            
-            /***********Secondary Fire Powerup**********/
 
             case PowerupType.homing:
                 StartCoroutine(HomingCooldown());
                 break;
-          /******************************************/
-            }
-        }
 
-        IEnumerator TripleShotCooldown()
-        {
-            firemode = FireMode.tripleShot;
-            yield return new WaitForSeconds(_tripleShotTime);
-            firemode = FireMode.laser;
+            case PowerupType.speedBoost:
+                thrustersCurrentCharge = thrustersMaxCharge;
+                break;
 
         }
+    }
 
-         /***********Secondary Fire Powerup**********/
-        IEnumerator HomingCooldown()
-        {
-            float currentFirerate = _fireRate;
-            firemode = FireMode.homing;
-            yield return new WaitForSeconds(5f);
-            firemode = FireMode.laser;
+    IEnumerator TripleShotCooldown()
+    {
+        firemode = FireMode.tripleShot;
+        yield return new WaitForSeconds(_tripleShotTime);
+        firemode = FireMode.laser;
 
-        }
-         /******************************************/
+    }
 
-        /* IEnumerator SpeedBoostCooldown()
-         {
-             _speedBoostEnabled = true;
-             yield return new WaitForSeconds(_speedBoostTime);
-             _speedBoostEnabled = false;
-         }*/
+    /***********Secondary Fire Powerup**********/
+    IEnumerator HomingCooldown()
+    {
+        firemode = FireMode.homing;
+        yield return new WaitForSeconds(5f);
+        firemode = FireMode.laser;
+
+    }
+    /******************************************/
+
+    void SpeedBoostCooldown()
+    {
+        thrustersCurrentCharge -= Time.deltaTime;
+        float thrustersPercent = thrustersCurrentCharge / thrustersMaxCharge;
+        uiManager.UpdateThrusterChargeUI(thrustersPercent);
+    }
 
     private void EnableShield()
     {
@@ -400,6 +405,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.tag == "EnemyProjectile")
         {
             DamagePlayer();
@@ -407,8 +413,11 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-       
+        
     }
+
+
+
 
 }
 

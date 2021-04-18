@@ -77,7 +77,7 @@ public class Projectile : MonoBehaviour
             if (target.GetComponent<Enemy>().IsDead)
                 target = null;
 
-            //Move towards target
+            //Move towards target. Relative space needs ot be set to self or the object will just move upwards even if turned towards target
             transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
             
 
@@ -96,20 +96,23 @@ public class Projectile : MonoBehaviour
         //Look for all enemy objects in the scene
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        //Initliaste with with Mathf.inifinity to ensure the distance is not to short
+        //Initialize  with Mathf.inifinity to ensure the initial distance check is not too short
         float shortestDistance = Mathf.Infinity;
 
+        //Local GameObject to store the nearst enemy
         GameObject nearestEnemy = null;
 
-        //Iterate through each enemy in the seen and find the closest one
+        //Iterate through each enemy in the scene and find the closest one
         foreach (GameObject enemy in enemies)
         {
-            //Skip to next if enemy is dead already
+            //Skip to next enemy it is dead already i.e currently running the explosion animation 
             if (enemy.GetComponent<Enemy>().IsDead)
                 continue;
 
+            //Store the distance to the enemy in a local variable
             float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
 
+            //if new distanceToEnemy is shorter than the shortestDistance update shortestDistance and set the nearestEnemy to this enemy
             if (distanceToEnemy < shortestDistance)
             {
                 shortestDistance = distanceToEnemy;
@@ -129,6 +132,7 @@ public class Projectile : MonoBehaviour
             target = null;
         }
     }
+
     //***********************************************************//
 
 }

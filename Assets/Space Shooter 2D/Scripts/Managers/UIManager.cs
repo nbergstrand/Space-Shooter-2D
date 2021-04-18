@@ -33,6 +33,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject _noAmmoWarningText;
 
+    [SerializeField]
+    Image chargeFillImage;
+
     //**********************************//
 
 
@@ -122,5 +125,13 @@ public class UIManager : MonoBehaviour
     }
     //************************************************//
 
-    
+    //*****************Thruster: Scaling Bar HUD************//
+
+    public void UpdateThrusterChargeUI(float percent)
+    {
+        chargeFillImage.fillAmount = percent;
+    }
+
+    //******************************************************//
+
 }

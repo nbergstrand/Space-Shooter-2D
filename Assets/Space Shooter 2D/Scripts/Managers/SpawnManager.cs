@@ -28,7 +28,7 @@ public class SpawnManager : MonoBehaviour
     bool _isPlayerAlive = true;
 
 
-    /**********************Framework***/
+    /**********************Framework****************/
     [SerializeField]
     GameObject[] _superPowerups;
 
@@ -74,21 +74,18 @@ public class SpawnManager : MonoBehaviour
         {
             float randomTime = Random.Range(3, 7);
 
-            //Wait amount in seconds before continuing 
             yield return new WaitForSeconds(randomTime);
 
-            //Set random X position
             Vector3 randomPos = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
 
-            //Random number for the power up array
             int randomPowerup = Random.Range(0, _powerups.Length);
 
             /******Secondary Fire Powerup****/
             int superPowerupChance = Random.Range(0, 15);
-            int randomSuper = Random.Range(0, _superPowerups.Length);
+            int randomSuperPowerup = Random.Range(0, _superPowerups.Length);
             if (superPowerupChance == 10)
             {
-                GameObject superPowerUp = Instantiate(_superPowerups[randomSuper], randomPos, Quaternion.identity);
+                GameObject superPowerUp = Instantiate(_superPowerups[randomSuperPowerup], randomPos, Quaternion.identity);
 
                 superPowerUp.transform.parent = _powerUpParent;
 
@@ -100,10 +97,7 @@ public class SpawnManager : MonoBehaviour
                 powerUp.transform.parent = _powerUpParent;
             }
             /*******************************************/
-
-            
-           
-            
+                       
             
         }
 
