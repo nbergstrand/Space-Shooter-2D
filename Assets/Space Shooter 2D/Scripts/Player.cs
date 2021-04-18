@@ -285,15 +285,14 @@ public class Player : MonoBehaviour
                     _shieldEnabled = false;
                     break;
             }
-            
-            
+                    
             return;
         }
 
         _lives--;
+        StartCoroutine(CameraShake());
         uiManager.UpdateLivesUI(_lives);
-               
-
+       
         if(_lives <= 0)
         {
             Die();
@@ -417,6 +416,22 @@ public class Player : MonoBehaviour
     }
 
 
+    IEnumerator CameraShake()
+    {
+        Vector3 camCurrentPos = Camera.main.transform.position;
+
+        for (int i = 0; i < 30; i++)
+        {
+            float randomX = Random.Range(-.5f, .5f);
+            float randomY = Random.Range(-.5f, .5f);
+
+            Camera.main.transform.position = new Vector3(randomX, randomY, camCurrentPos.z);
+            yield return null;
+
+        }
+
+        Camera.main.transform.position = camCurrentPos;
+    }
 
 
 }
