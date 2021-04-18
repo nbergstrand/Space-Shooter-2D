@@ -26,16 +26,31 @@ public class Enemy : MonoBehaviour
     }
 
     Transform _projectileParent;
-
     GameManager _gameManager;
-
     Animator _animator;
-
     AudioManager audioManager;
+
+
+    /*****************New Enemy Movement***************/
+    bool moveRight, moveLeft;
+    /**************************************************/
 
     private void Start()
     {
+        /*****************New Enemy Movement***************/
+        int randomStartDirection = Random.Range(0, 2);
 
+        if(randomStartDirection == 0)
+        {
+            moveLeft = false;
+            moveRight = true;
+        }
+        else
+        {
+            moveLeft = true;
+            moveRight = false;
+        }
+        /**************************************************/
         _timeToNextShot = Time.time + Random.Range(3, 6);
 
         _animator = GetComponent<Animator>();
@@ -77,10 +92,28 @@ public class Enemy : MonoBehaviour
 
     void EnemyMovement()
     {
-        //While active move the enemy downwards
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        //If the enemy is outside of the screen move it back to the top
+        /*****************New Enemy Movement***************/
+        if (transform.position.x < -9f)
+        {
+            moveLeft = false;
+            moveRight = true;
+        }
+
+        if(transform.position.x > 11f)
+        {
+            moveLeft = true;
+            moveRight = false;
+        }
+
+        if(moveRight)
+            transform.Translate((Vector3.down + Vector3.right) * _speed * Time.deltaTime);
+
+        if(moveLeft)
+            transform.Translate((Vector3.down + Vector3.left) * _speed * Time.deltaTime);
+
+        /**************************************************/
+
         if (transform.position.y < -6f && !_isDead)
                 Destroy(gameObject);
     }

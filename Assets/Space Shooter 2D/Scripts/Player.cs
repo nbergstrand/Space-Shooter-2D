@@ -229,18 +229,18 @@ public class Player : MonoBehaviour
 
 
         //Clamp y beween -3.8 - 0
-        newPosition.y = Mathf.Clamp(newPosition.y, -3.8f, 0f);
+        newPosition.y = Mathf.Clamp(newPosition.y, -4.8f, 0f);
                         
         //If wrapping is enabled move player to the opposite side of the screen
         if (_horizontalWrapEnabled)
         {
-            if (newPosition.x < -11.3)
+            if (newPosition.x < -9.6)
             {
                 newPosition.x = 11.3f;
             }
             else if (newPosition.x > 11.3f)
             {
-                newPosition.x = -11.3f;
+                newPosition.x = -9.6f;
             }
 
         }
