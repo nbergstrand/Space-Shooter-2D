@@ -31,9 +31,26 @@ public class Enemy : MonoBehaviour
     AudioManager audioManager;
 
 
-    /*****************New Enemy Movement***************/
+    /*****************Phase 1***************/
     bool moveRight, moveLeft;
     /**************************************************/
+
+
+    /*****************Phase 2***************/
+    [SerializeField]
+    EnemyType _enemyType;
+
+    float startPosX;
+
+    [SerializeField]
+    float WaveMovementSpeed;
+    [SerializeField]
+    float WaveMovementAmount;
+    [SerializeField]
+    GameObject explosion;
+
+    /**************************************************/
+
 
     private void Start()
     {
@@ -50,6 +67,14 @@ public class Enemy : MonoBehaviour
             moveLeft = true;
             moveRight = false;
         }
+        /**************************************************/
+
+
+        /*********************New Enemy Type***********/
+        startPosX = transform.position.x;
+
+
+        
         /**************************************************/
         _timeToNextShot = Time.time + Random.Range(3, 6);
 
@@ -85,7 +110,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if(!_isDead)
-            Shoot();
+        {
+            if(_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.Burster)
+                Shoot();
+        }
 
         EnemyMovement();
     }
@@ -93,28 +121,44 @@ public class Enemy : MonoBehaviour
     void EnemyMovement()
     {
 
-        /*****************New Enemy Movement***************/
-        if (transform.position.x < -9f)
+        switch(_enemyType)
         {
-            moveLeft = false;
-            moveRight = true;
+            case EnemyType.SideToSide:
+                if (transform.position.x < -9f)
+                {
+                    moveLeft = false;
+                    moveRight = true;
+                }
+
+                if (transform.position.x > 11f)
+                {
+                    moveLeft = true;
+                    moveRight = false;
+                }
+
+                if (moveRight)
+                    transform.Translate((Vector3.down + Vector3.right) * _speed * Time.deltaTime);
+
+                if (moveLeft)
+                    transform.Translate((Vector3.down + Vector3.left) * _speed * Time.deltaTime);
+
+                break;
+
+            case EnemyType.StraightShooter:
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+                break;
+
+            case EnemyType.Burster:
+                transform.Translate(Vector3.down  * _speed * Time.deltaTime);
+                transform.localPosition = new Vector3(startPosX + WaveMovement(WaveMovementSpeed, WaveMovementAmount), transform.localPosition.y, transform.localPosition.z);
+               
+                break;
+
         }
 
-        if(transform.position.x > 11f)
-        {
-            moveLeft = true;
-            moveRight = false;
-        }
 
-        if(moveRight)
-            transform.Translate((Vector3.down + Vector3.right) * _speed * Time.deltaTime);
 
-        if(moveLeft)
-            transform.Translate((Vector3.down + Vector3.left) * _speed * Time.deltaTime);
-
-        /**************************************************/
-
-        if (transform.position.y < -6f && !_isDead)
+        if (transform.position.y < -8f && !_isDead)
                 Destroy(gameObject);
     }
 
@@ -150,21 +194,48 @@ public class Enemy : MonoBehaviour
             {
                 other.GetComponent<Player>().DamagePlayer();
             }
+            
+
+            if(_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.SideToSide)
+            {
+                _animator.SetTrigger("OnEnemyDeath");
+                Destroy(gameObject, 3f);
+            }
+            else
+            {
+                //GetComponent<Renderer>().enabled = false;
+                GameObject explosionGO = Instantiate(explosion, transform.position, Quaternion.identity);
+                Destroy(explosionGO, 2f);
+               
+            }
+
+
+            _speed = 0;
             audioManager.PlayExplosionSound();
             GetComponent<BoxCollider2D>().enabled = false;
             _isDead = true;
-            _animator.SetTrigger("OnEnemyDeath");
-            _speed = 0;
 
-            Destroy(gameObject, 3f);
+
         }
 
         if (other.tag == "Projectile")
         {
-            audioManager.PlayExplosionSound();
+            
 
             _gameManager.IncreaseScore(_scoreAmount);
-            _animator.SetTrigger("OnEnemyDeath");
+            if (_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.SideToSide)
+            {
+                _animator.SetTrigger("OnEnemyDeath");
+            }
+            else
+            {
+                GetComponent<Renderer>().enabled = false;
+                GameObject explosionGO = Instantiate(explosion, transform.position, Quaternion.identity);
+                Destroy(explosionGO, 2f);
+                
+
+            }
+            audioManager.PlayExplosionSound();
             _isDead = true;
             _speed = 0;
             GetComponent<BoxCollider2D>().enabled = false;
@@ -173,6 +244,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
+
+    float WaveMovement(float speed, float amount)
+    {
+        return (((Mathf.Cos((Time.time * speed) + 1) / 2) * amount));
+    }
+   
+
+}
+
+
+public enum EnemyType
+{
+    SideToSide,
+    StraightShooter,
+    Burster
 
 }

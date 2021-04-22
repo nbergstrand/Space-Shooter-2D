@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7237889270641744292}
   - component: {fileID: 6492068976607874913}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: SideToSide
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,9 +146,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _scoreAmount: 10
-  _projectile: {fileID: 7137013883458499969, guid: 55cb8a3300fde6a43a1e5e26c7e67de6,
+  _projectile: {fileID: 7137013883458499969, guid: 5cd3d612bdbea9b438fd0081a287d474,
     type: 3}
   _projectileSpawnPos: {x: 0, y: -1, z: 0}
+  _enemyType: 0
+  WaveMovementSpeed: 0
+  WaveMovementAmount: 0
+  explosion: {fileID: 6418831572078140656, guid: 05ac1ddb73446914ab473803deb8f19d,
+    type: 3}
 --- !u!95 &6492068976607874913
 Animator:
   serializedVersion: 3

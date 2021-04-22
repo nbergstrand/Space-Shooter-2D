@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField]
-    GameObject _enemyPrefab;
-
+    
     //Private array for the power up prefabs
     [SerializeField]
     GameObject[] _powerups;
@@ -40,6 +38,7 @@ public class SpawnManager : MonoBehaviour
     SpawnWave[] waves;
 
     int currentWave = 0;
+
     /************************************************/
 
 

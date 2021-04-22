@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     void DestroyProjectile()
     {
         //If projectile is outside of the screen destroy the object
-        if (transform.position.y > 10f)
+        if (transform.position.y > 12f)
         {
             if(transform.parent == null || transform.parent.name == "Projectiles_parent")
             {
@@ -44,7 +44,7 @@ public class Projectile : MonoBehaviour
                 Destroy(transform.parent.gameObject);
             }
         }
-        else if (transform.position.y < -10f)
+        else if (transform.position.y < -12f)
         {
             if (transform.parent == null || transform.parent.name == "Projectiles_parent")
             {
