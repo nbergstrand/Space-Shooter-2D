@@ -223,7 +223,7 @@ public class Player : MonoBehaviour
         {
             if(!reverseControl)
             {
-                newPosition = transform.position + new Vector3(-Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"), 0f) * _speedBoostAmount * Time.deltaTime;
+                newPosition = transform.position + new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f) * _speedBoostAmount * Time.deltaTime;
 
             }
             else
