@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    
+
     //Private array for the power up prefabs
     [SerializeField]
     GameObject[] _powerups;
 
-   /* [SerializeField]
-    float _timeBetweenEnemies;*/
-        
+    /* [SerializeField]
+     float _timeBetweenEnemies;*/
+
     //Private  trasnform for the enemy parent 
     [SerializeField]
     Transform _enemyParent;
@@ -37,7 +37,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     SpawnWave[] waves;
 
-    int currentWave = 0;
+    int _currentWave = 0;
+    public int CurrentWave
+    {
+        get { return _currentWave; }
+    }
+
 
     /************************************************/
 
@@ -65,11 +70,11 @@ public class SpawnManager : MonoBehaviour
     {
         int enemyInWave = 0;
 
-        while(_isPlayerAlive && currentWave < waves.Length )
+        while(_isPlayerAlive && _currentWave < waves.Length )
         {
 
             /************Balanced Spawning*************/
-            yield return new WaitForSeconds(waves[currentWave].spawnTime);
+            yield return new WaitForSeconds(waves[_currentWave].spawnTime);
 
             Vector3 randomPos = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
 
@@ -79,7 +84,7 @@ public class SpawnManager : MonoBehaviour
             int spawnChance = Random.Range(1, 101);
 
             //increase the chance of higher difficult enemies each wave
-            spawnChance += currentWave * 2;
+            spawnChance += _currentWave * 2;
 
             if (spawnChance > 100)
                 spawnChance = 100;
@@ -90,7 +95,7 @@ public class SpawnManager : MonoBehaviour
             }
             else if (spawnChance > 60 && spawnChance <= 80)
             {
-                if(currentWave > 1)
+                if(_currentWave > 1)
                 {
                     randomEnemy = (int)EnemyType.StraightShooter;
 
@@ -103,7 +108,7 @@ public class SpawnManager : MonoBehaviour
             }
             else if (spawnChance > 90 && spawnChance <= 100)
             {
-                if(currentWave > 2)
+                if(_currentWave > 2)
                 {
                     randomEnemy = (int)EnemyType.Burster;
                 }                   
@@ -117,16 +122,16 @@ public class SpawnManager : MonoBehaviour
 
             if (_isPlayerAlive)
             {
-                GameObject enemy = Instantiate(waves[currentWave].enemies[randomEnemy], randomPos, Quaternion.identity);
+                GameObject enemy = Instantiate(waves[_currentWave].enemies[randomEnemy], randomPos, Quaternion.identity);
                 enemy.transform.parent = _enemyParent;
 
             }
 
-            if(enemyInWave >= waves[currentWave].amountOfEnemiesInWave)
+            if(enemyInWave >= waves[_currentWave].amountOfEnemiesInWave)
             {
-                currentWave++;
+                _currentWave++;
                 yield return new WaitForSeconds(10f);
-                _uiManager.ShowWaveText(currentWave + 1);
+                _uiManager.ShowWaveText(_currentWave + 1);
                 enemyInWave = 0;
             }
 

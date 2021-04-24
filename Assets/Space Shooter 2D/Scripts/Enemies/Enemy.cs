@@ -28,11 +28,11 @@ public class Enemy : MonoBehaviour
     Transform _projectileParent;
     GameManager _gameManager;
     Animator _animator;
-    AudioManager audioManager;
+    AudioManager _audioManager;
 
 
     /*****************Phase 1***************/
-    bool moveRight, moveLeft;
+    bool _moveRight, _moveLeft;
     /**************************************************/
 
 
@@ -43,11 +43,17 @@ public class Enemy : MonoBehaviour
     float startPosX;
 
     [SerializeField]
-    float WaveMovementSpeed;
+    float _waveMovementSpeed;
     [SerializeField]
-    float WaveMovementAmount;
+    float _waveMovementAmount;
     [SerializeField]
     GameObject explosion;
+
+    [SerializeField]
+    GameObject _shieldGO;
+
+    bool _shieldEnabled;
+    SpawnManager spawnManager;
 
     /**************************************************/
 
@@ -59,13 +65,13 @@ public class Enemy : MonoBehaviour
 
         if(randomStartDirection == 0)
         {
-            moveLeft = false;
-            moveRight = true;
+            _moveLeft = false;
+            _moveRight = true;
         }
         else
         {
-            moveLeft = true;
-            moveRight = false;
+            _moveLeft = true;
+            _moveRight = false;
         }
         /**************************************************/
 
@@ -73,9 +79,25 @@ public class Enemy : MonoBehaviour
         /*********************New Enemy Type***********/
         startPosX = transform.position.x;
 
-
-        
         /**************************************************/
+
+        /*********************Enemy Shields***********/
+        spawnManager = GameObject.Find("Game_Manager").GetComponent<SpawnManager>();
+
+        if(spawnManager.CurrentWave > 3)
+        {
+            int randomChance = Random.Range(1, 3);
+
+            if(randomChance == 1)
+            {
+                EnableShield();
+            }
+            
+        }
+
+        /**************************************************/
+
+
         _timeToNextShot = Time.time + Random.Range(3, 6);
 
         _animator = GetComponent<Animator>();
@@ -97,9 +119,9 @@ public class Enemy : MonoBehaviour
 
         }
 
-        audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        _audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
 
-        if (audioManager == null)
+        if (_audioManager == null)
         {
             Debug.Log("No AudioManager found");
         }
@@ -126,20 +148,20 @@ public class Enemy : MonoBehaviour
             case EnemyType.SideToSide:
                 if (transform.position.x < -9f)
                 {
-                    moveLeft = false;
-                    moveRight = true;
+                    _moveLeft = false;
+                    _moveRight = true;
                 }
 
                 if (transform.position.x > 11f)
                 {
-                    moveLeft = true;
-                    moveRight = false;
+                    _moveLeft = true;
+                    _moveRight = false;
                 }
 
-                if (moveRight)
+                if (_moveRight)
                     transform.Translate((Vector3.down + Vector3.right) * _speed * Time.deltaTime);
 
-                if (moveLeft)
+                if (_moveLeft)
                     transform.Translate((Vector3.down + Vector3.left) * _speed * Time.deltaTime);
 
                 break;
@@ -150,7 +172,7 @@ public class Enemy : MonoBehaviour
 
             case EnemyType.Burster:
                 transform.Translate(Vector3.down  * _speed * Time.deltaTime);
-                transform.localPosition = new Vector3(startPosX + WaveMovement(WaveMovementSpeed, WaveMovementAmount), transform.localPosition.y, transform.localPosition.z);
+                transform.localPosition = new Vector3(startPosX + WaveMovement(_waveMovementSpeed, _waveMovementAmount), transform.localPosition.y, transform.localPosition.z);
                
                 break;
 
@@ -175,7 +197,7 @@ public class Enemy : MonoBehaviour
             laser.transform.parent = _projectileParent;
                           
 
-            audioManager.PlayLaserSound();
+            _audioManager.PlayLaserSound();
 
         }
     }
@@ -190,13 +212,22 @@ public class Enemy : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            if(other.GetComponent<Player>() != null)
+            
+            if (other.GetComponent<Player>() != null)
             {
                 other.GetComponent<Player>().DamagePlayer();
             }
-            
 
-            if(_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.SideToSide)
+            if (_shieldEnabled == true)
+            {
+                _shieldGO.SetActive(false);
+                _shieldEnabled = false;
+
+                return;
+            }
+
+
+            if (_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.SideToSide)
             {
                 _animator.SetTrigger("OnEnemyDeath");
                 Destroy(gameObject, 3f);
@@ -211,7 +242,7 @@ public class Enemy : MonoBehaviour
 
 
             _speed = 0;
-            audioManager.PlayExplosionSound();
+            _audioManager.PlayExplosionSound();
             GetComponent<BoxCollider2D>().enabled = false;
             _isDead = true;
 
@@ -220,7 +251,15 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Projectile")
         {
-            
+            Destroy(other.gameObject);
+
+            if (_shieldEnabled == true)
+            {
+                _shieldGO.SetActive(false);
+                _shieldEnabled = false;
+
+                return;
+            }
 
             _gameManager.IncreaseScore(_scoreAmount);
             if (_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.SideToSide)
@@ -235,11 +274,11 @@ public class Enemy : MonoBehaviour
                 
 
             }
-            audioManager.PlayExplosionSound();
+            _audioManager.PlayExplosionSound();
             _isDead = true;
             _speed = 0;
             GetComponent<BoxCollider2D>().enabled = false;
-            Destroy(other.gameObject);
+            
             Destroy(gameObject, 3f);
         }
     }
@@ -249,7 +288,14 @@ public class Enemy : MonoBehaviour
     {
         return (((Mathf.Cos((Time.time * speed) + 1) / 2) * amount));
     }
-   
+
+
+    private void EnableShield()
+    {
+        _shieldGO.SetActive(true);
+        _shieldEnabled = true;
+    }
+
 
 }
 
