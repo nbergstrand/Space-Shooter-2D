@@ -93,7 +93,7 @@ public class SpawnManager : MonoBehaviour
             {
                 randomEnemy = (int)EnemyType.SideToSide;
             }
-            else if (spawnChance > 60 && spawnChance <= 80)
+            else if (spawnChance > 50 && spawnChance <= 70)
             {
                 if(_currentWave > 1)
                 {
@@ -106,7 +106,7 @@ public class SpawnManager : MonoBehaviour
                 }
 
             }
-            else if (spawnChance > 90 && spawnChance <= 100)
+            else if (spawnChance > 80 && spawnChance <= 90)
             {
                 if(_currentWave > 2)
                 {
@@ -118,7 +118,19 @@ public class SpawnManager : MonoBehaviour
                 }
 
             }
-          
+            else if (spawnChance > 90 && spawnChance <= 100)
+            {
+                if (_currentWave > 3)
+                {
+                    randomEnemy = (int)EnemyType.Kamikaze;
+                }
+                else
+                {
+                    randomEnemy = (int)EnemyType.StraightShooter;
+                }
+
+            }
+
 
             if (_isPlayerAlive)
             {
