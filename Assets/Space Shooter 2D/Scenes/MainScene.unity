@@ -2749,7 +2749,7 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
-    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 950499996691910327, guid: 8275eb4daf2f8c74e961de31df44971b, type: 3}
     amountOfEnemiesInWave: 20
     spawnTime: 3
   - enemies:
@@ -2757,7 +2757,7 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
-    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 950499996691910327, guid: 8275eb4daf2f8c74e961de31df44971b, type: 3}
     amountOfEnemiesInWave: 25
     spawnTime: 2
   - enemies:
@@ -2765,7 +2765,7 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
-    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 950499996691910327, guid: 8275eb4daf2f8c74e961de31df44971b, type: 3}
     amountOfEnemiesInWave: 30
     spawnTime: 2
   - enemies:
@@ -2779,7 +2779,7 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
-    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 950499996691910327, guid: 8275eb4daf2f8c74e961de31df44971b, type: 3}
     amountOfEnemiesInWave: 40
     spawnTime: 2
   - enemies:
@@ -2787,7 +2787,7 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
-    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 950499996691910327, guid: 8275eb4daf2f8c74e961de31df44971b, type: 3}
     amountOfEnemiesInWave: 45
     spawnTime: 2
 --- !u!114 &1635214616
