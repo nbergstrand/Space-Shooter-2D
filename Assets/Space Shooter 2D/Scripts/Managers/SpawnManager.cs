@@ -114,7 +114,7 @@ public class SpawnManager : MonoBehaviour
                 }                   
                 else
                 {
-                    randomEnemy = (int)EnemyType.StraightShooter;
+                    randomEnemy = (int)EnemyType.SideToSide;
                 }
 
             }
@@ -126,7 +126,7 @@ public class SpawnManager : MonoBehaviour
                 }
                 else
                 {
-                    randomEnemy = (int)EnemyType.StraightShooter;
+                    randomEnemy = (int)EnemyType.SideToSide;
                 }
 
             }
