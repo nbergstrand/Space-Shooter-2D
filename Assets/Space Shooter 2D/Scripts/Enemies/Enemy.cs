@@ -109,7 +109,12 @@ public class Enemy : MonoBehaviour
             InvokeRepeating("LookForTarget", 0f, 0.25f);
         /**************************************************/
 
-        _timeToNextShot = Time.time + Random.Range(3, 6);
+        if( _enemyType != EnemyType.SmartShooter)
+            _timeToNextShot = Time.time + Random.Range(3, 6);
+        else
+        {
+            _timeToNextShot = 1f;
+        }
 
         _animator = GetComponent<Animator>();
 
@@ -146,6 +151,20 @@ public class Enemy : MonoBehaviour
         {
             if(_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.Burster)
                 Shoot();
+
+            if(_enemyType == EnemyType.SmartShooter)
+            {
+                RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + Vector2.up, Vector2.up);
+
+                
+                if (hit.collider != null)
+                {
+                   
+                    if (hit.collider.tag == "Player")
+                        ShootBackwards();
+                }
+                             
+            }
         }
 
         EnemyMovement();
@@ -192,21 +211,23 @@ public class Enemy : MonoBehaviour
                     {
                         if (transform.position.x < -9f)
                         {
+                             
                             _moveLeft = false;
                             _moveRight = true;
                         }
 
                         if (transform.position.x > 11f)
                         {
+                            
                             _moveLeft = true;
                             _moveRight = false;
                         }
 
                         if (_moveRight)
-                            transform.Translate((Vector3.up + Vector3.right) * _speed * Time.deltaTime);
+                            transform.Translate((Vector3.up + Vector3.left) * _speed * Time.deltaTime);
 
                         if (_moveLeft)
-                            transform.Translate((Vector3.up + Vector3.left) * _speed * Time.deltaTime);
+                            transform.Translate((Vector3.up + Vector3.right) * _speed * Time.deltaTime);
                     }
                     else
                     {
@@ -223,13 +244,35 @@ public class Enemy : MonoBehaviour
 
 
                     break;
-               /*******************************************************************************************************/
+            /*******************************************************************************************************/
+            /***************************************Smart Enemy Type***************************************/
 
-            }
+            case EnemyType.SmartShooter:
+                if (transform.position.x < -9f)
+                {
+                    _moveLeft = false;
+                    _moveRight = true;
+                }
+
+                if (transform.position.x > 11f)
+                {
+                    _moveLeft = true;
+                    _moveRight = false;
+                }
+
+                if (_moveRight)
+                    transform.Translate( Vector3.right * _speed * Time.deltaTime);
+
+                if (_moveLeft)
+                    transform.Translate( Vector3.left * _speed * Time.deltaTime);
+
+                break;
+                /*******************************************************************************************************/
+        }
 
 
 
-            if (transform.position.y < -8f && !_isDead)
+                if (transform.position.y < -8f && !_isDead)
                     Destroy(gameObject);
         }
 
@@ -251,13 +294,32 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        /*void Respawn()
+        private void ShootBackwards()
         {
-             //Move to random position on top of the screen
-            transform.position = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
-        }*/
+            
 
-                private void OnTriggerEnter2D(Collider2D other)
+            if (Time.time > _timeToNextShot)
+            {
+                //Reset the cooldown timer to the time since game started plus fire rate
+                _timeToNextShot = Time.time + 1f;
+
+                GameObject laser = Instantiate(_projectile, transform.position + _projectileSpawnPos, Quaternion.identity);
+
+                laser.transform.parent = _projectileParent;
+
+
+                _audioManager.PlayLaserSound();
+
+            }
+        }
+
+    /*void Respawn()
+    {
+         //Move to random position on top of the screen
+        transform.position = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
+    }*/
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Player")
         {
@@ -381,6 +443,7 @@ public enum EnemyType
     SideToSide,
     StraightShooter,
     Burster,
-    Kamikaze
+    Kamikaze,
+    SmartShooter
 
 }

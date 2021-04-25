@@ -590,7 +590,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &382496309
 GameObject:
@@ -1474,7 +1474,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1075660678
 GameObject:
@@ -2305,7 +2305,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1500096106
 GameObject:
@@ -2749,6 +2749,7 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     amountOfEnemiesInWave: 20
     spawnTime: 3
   - enemies:
@@ -2756,12 +2757,14 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     amountOfEnemiesInWave: 25
     spawnTime: 2
   - enemies:
     - {fileID: 1194706264131357179, guid: 2107efdf221bb674ca0ba7d4e8e9dcde, type: 3}
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
+    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     amountOfEnemiesInWave: 30
     spawnTime: 2
@@ -2776,12 +2779,14 @@ MonoBehaviour:
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
+    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     amountOfEnemiesInWave: 40
     spawnTime: 2
   - enemies:
     - {fileID: 1194706264131357179, guid: 2107efdf221bb674ca0ba7d4e8e9dcde, type: 3}
     - {fileID: 1194706264131357179, guid: 20d46a56bc2bca049b2e6d2965be2dca, type: 3}
     - {fileID: 467247225105041130, guid: 15e2b40c73f9ae44d8980978d7d35fdb, type: 3}
+    - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     - {fileID: 8858167445419827222, guid: 4f058bd9c433d824fb75e9e63e56f6d5, type: 3}
     amountOfEnemiesInWave: 45
     spawnTime: 2
@@ -3325,7 +3330,7 @@ PrefabInstance:
     - target: {fileID: 6010527517446968958, guid: fa79a0c1250ea454bacfa41da91bceca,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6010527517446968958, guid: fa79a0c1250ea454bacfa41da91bceca,
         type: 3}

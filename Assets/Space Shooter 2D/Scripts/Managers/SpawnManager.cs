@@ -122,7 +122,12 @@ public class SpawnManager : MonoBehaviour
             {
                 if (_currentWave > 3)
                 {
-                    randomEnemy = (int)EnemyType.Kamikaze;
+                    if(spawnChance > 90 && spawnChance <= 95)
+                        randomEnemy = (int)EnemyType.Kamikaze;
+                    else if(spawnChance > 95 && spawnChance <= 100)
+                    {
+                        randomEnemy = (int)EnemyType.SmartShooter;
+                    }
                 }
                 else
                 {
@@ -134,8 +139,18 @@ public class SpawnManager : MonoBehaviour
 
             if (_isPlayerAlive)
             {
-                GameObject enemy = Instantiate(waves[_currentWave].enemies[randomEnemy], randomPos, Quaternion.identity);
-                enemy.transform.parent = _enemyParent;
+                if (randomEnemy != (int)EnemyType.SmartShooter)
+                {
+                    GameObject enemy = Instantiate(waves[_currentWave].enemies[randomEnemy], randomPos, Quaternion.identity);
+                    enemy.transform.parent = _enemyParent;
+                }
+                else
+                {
+                    Vector3 sideSpawn = new Vector3(-11.89f, -3f, 0);
+                    GameObject enemy = Instantiate(waves[_currentWave].enemies[randomEnemy], sideSpawn, Quaternion.identity);
+                    enemy.transform.parent = _enemyParent;
+                }
+                
 
             }
 
