@@ -15,9 +15,20 @@ public class Powerup : MonoBehaviour
 
     AudioManager audioManager;
 
+    /**********************Phase 2*******************************/
+
+    Transform _player;
+
+    [SerializeField]
+    float _absorptionSpeed;
+
+    /*************************************************************/
+
+
     private void Start()
     {
         audioManager = GameObject.Find("Audio_Manager").GetComponent<AudioManager>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
         if(audioManager == null)
         {
@@ -29,7 +40,15 @@ public class Powerup : MonoBehaviour
 
     void Update()
     {
-        Movement();
+        if(Input.GetKey(KeyCode.C))
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _player.position, _absorptionSpeed * Time.deltaTime);
+        }
+        else
+        {
+            Movement();
+        }
+        
     }
 
 

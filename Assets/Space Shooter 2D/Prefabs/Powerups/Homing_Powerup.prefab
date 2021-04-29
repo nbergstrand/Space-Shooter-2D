@@ -228,6 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _powerupType: 5
+  _absorptionSpeed: 4
 --- !u!1 &3483720770689603170
 GameObject:
   m_ObjectHideFlags: 0

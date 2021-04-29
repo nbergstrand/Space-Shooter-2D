@@ -227,3 +227,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _powerupType: 4
+  _absorptionSpeed: 4
