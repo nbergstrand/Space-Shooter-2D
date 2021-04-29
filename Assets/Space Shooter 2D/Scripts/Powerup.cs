@@ -54,9 +54,17 @@ public class Powerup : MonoBehaviour
                 collision.GetComponent<Player>().EnablePowerup(_powerupType);
             }
 
-            GetComponent<BoxCollider2D>().enabled = false;
+            
             Destroy(gameObject);
         }
+
+        if (collision.tag == "EnemyProjectile")
+        {
+                  
+            Destroy(gameObject);
+        }
+
+
     }
 }
 

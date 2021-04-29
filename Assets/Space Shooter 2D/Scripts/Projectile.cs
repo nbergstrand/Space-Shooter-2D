@@ -63,6 +63,7 @@ public class Projectile : MonoBehaviour
 
         if(target == null)
         {
+
             transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
 
         }

@@ -73,23 +73,25 @@ public class SpawnManager : MonoBehaviour
         while(_isPlayerAlive && _currentWave < waves.Length )
         {
 
-            /************Balanced Spawning*************/
             yield return new WaitForSeconds(waves[_currentWave].spawnTime);
 
             Vector3 randomPos = new Vector3(Random.Range(-9f, 9f), 10f, 0f);
 
             enemyInWave++;
+
             int randomEnemy = 0;
 
             int spawnChance = Random.Range(1, 101);
+            
 
-            //increase the chance of higher difficult enemies each wave
+            //increase the chance of higher difficulty enemies each wave
             spawnChance += _currentWave * 2;
 
             if (spawnChance > 100)
                 spawnChance = 100;
-            
-            if (spawnChance <= 60)
+            Debug.Log(spawnChance);
+
+            if (spawnChance <= 50)
             {
                 randomEnemy = (int)EnemyType.SideToSide;
             }
@@ -106,7 +108,7 @@ public class SpawnManager : MonoBehaviour
                 }
 
             }
-            else if (spawnChance > 80 && spawnChance <= 90)
+            else if (spawnChance > 70 && spawnChance <= 90)
             {
                 if(_currentWave > 2)
                 {
@@ -120,17 +122,18 @@ public class SpawnManager : MonoBehaviour
             }
             else if (spawnChance > 90 && spawnChance <= 100)
             {
-                if (_currentWave > 3)
+                if (_currentWave >= 3)
                 {
                     if(spawnChance > 90 && spawnChance <= 95)
                         randomEnemy = (int)EnemyType.Kamikaze;
                     else if(spawnChance > 95 && spawnChance <= 100)
                     {
-                        randomEnemy = (int)EnemyType.SmartShooter;
+                         randomEnemy = (int)EnemyType.SmartShooter;
                     }
                 }
                 else
                 {
+                    
                     randomEnemy = (int)EnemyType.SideToSide;
                 }
 
@@ -161,11 +164,13 @@ public class SpawnManager : MonoBehaviour
                 _uiManager.ShowWaveText(_currentWave + 1);
                 enemyInWave = 0;
             }
-
-
-
+            
         }
-        _uiManager.ShowWaveText(100);
+
+        if (_isPlayerAlive)
+            _uiManager.ShowWaveText(100);
+
+
         /************************************************/
 
     }
