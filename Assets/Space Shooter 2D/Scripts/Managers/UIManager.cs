@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
             _pauseMenu.SetActive(false);
         }
     }
-    //************AMMO COUNT*************************//
+    
     public void UpdateAmmoUI(int ammoAmount)
     {
         _ammoText.text = ammoAmount + " /  15";
@@ -131,26 +131,28 @@ public class UIManager : MonoBehaviour
             count--;
         }
     }
-    //************************************************//
-
-    //*****************Thruster: Scaling Bar HUD************//
+    
 
     public void UpdateThrusterChargeUI(float percent)
     {
         _chargeFillImage.fillAmount = percent;
     }
 
-    //******************************************************//
-
-    /*********************Wave System*****************************/
+    
     public void ShowWaveText(int wave)
     {
-        if(wave != 100)
+        if(wave < 10)
         {
             StartCoroutine("TextFade");
             _waveText.text = "WAVE " + wave;
         }
-        else
+        else if (wave == 10)
+        {
+            StartCoroutine("TextFade");
+            _waveText.color = new Color(_waveText.color.r, _waveText.color.g, _waveText.color.b, 1);
+            _waveText.text = "BOSS BATTLE!";
+        }
+        else if(wave == 100)
         {
             StopCoroutine("TextFade");
             _waveText.color = new Color(_waveText.color.r, _waveText.color.g, _waveText.color.b, 1);

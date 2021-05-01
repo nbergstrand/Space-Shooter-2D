@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
-  _scoreAmount: 20
+  _scoreAmount: 30
   _projectile: {fileID: 7137013883458499969, guid: 5cd3d612bdbea9b438fd0081a287d474,
     type: 3}
   _projectileSpawnPos: {x: 0, y: -1, z: 0}

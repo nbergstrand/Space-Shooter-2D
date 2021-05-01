@@ -287,7 +287,7 @@ MonoBehaviour:
   _waveMovementAmount: 0
   explosion: {fileID: 6418831572078140656, guid: 05ac1ddb73446914ab473803deb8f19d,
     type: 3}
-  _shieldGO: {fileID: 0}
+  _shieldGO: {fileID: 9201559302142470510}
 --- !u!1 &9201559302142470510
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +542,7 @@ MonoBehaviour:
   _waveMovementAmount: 0
   explosion: {fileID: 6418831572078140656, guid: 05ac1ddb73446914ab473803deb8f19d,
     type: 3}
-  _shieldGO: {fileID: 0}
+  _shieldGO: {fileID: 9201559301200466144}
 --- !u!1001 &5717894820637442763
 PrefabInstance:
   m_ObjectHideFlags: 0

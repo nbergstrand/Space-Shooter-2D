@@ -165,7 +165,7 @@ public class Enemy : MonoBehaviour
         if (!_isDead)
         {
             if (_enemyType == EnemyType.StraightShooter || _enemyType == EnemyType.Burster)
-                Shoot(false);
+                Shoot(true);
 
             if (_enemyType == EnemyType.SmartShooter)
             {

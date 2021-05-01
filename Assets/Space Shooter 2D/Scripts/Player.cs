@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         //Reset the player position when game starts
-        transform.position = new Vector3(0f, -2.78f, 0f);
+        transform.position = new Vector3(0f, -3f, 0f);
 
         audioSource = GetComponent<AudioSource>();
 

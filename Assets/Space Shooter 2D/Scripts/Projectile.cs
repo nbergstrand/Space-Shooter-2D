@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    //Private variable for the speed of the projectile
+    
     [SerializeField]
     private float _speed;
     
     [SerializeField]
     Transform target;
-    //**Secondary Fire Powerup**//
+    
 
     [SerializeField]
     bool _homing;
@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviour
         if(_homing == true)
             InvokeRepeating("UpdateTarget", 0f, 0.25f);
     }
-    //**************************************************************************//
+    
     void Update()
     {
         MoveProjectile();
@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     void DestroyProjectile()
     {
         //If projectile is outside of the screen destroy the object
-        if (transform.position.y > 12f)
+        if (transform.position.y > 20f)
         {
             if(transform.parent == null || transform.parent.name == "Projectiles_parent")
             {
@@ -44,7 +44,7 @@ public class Projectile : MonoBehaviour
                 Destroy(transform.parent.gameObject);
             }
         }
-        else if (transform.position.y < -12f)
+        else if (transform.position.y < -20f)
         {
             if (transform.parent == null || transform.parent.name == "Projectiles_parent")
             {
@@ -69,7 +69,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            //**Secondary Fire Powerup**//
+            
 
             //Ensure that the game object is rotated towards the target
             transform.up = target.position - transform.position;
@@ -82,11 +82,10 @@ public class Projectile : MonoBehaviour
             transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
             
 
-            //***************************************************//
+            
         }
 
     }
-    //**Secondary Fire Powerup**//
 
     private void UpdateTarget()
     {
@@ -134,6 +133,6 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    //***********************************************************//
+   
 
 }

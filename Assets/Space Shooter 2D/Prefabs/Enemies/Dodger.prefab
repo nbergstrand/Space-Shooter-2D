@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _scoreAmount: 0
+  _scoreAmount: 150
   _projectile: {fileID: 0}
   _projectileSpawnPos: {x: 0, y: 0, z: 0}
   _enemyType: 5
@@ -153,7 +153,7 @@ MonoBehaviour:
   _waveMovementAmount: 0
   explosion: {fileID: 6418831572078140656, guid: 05ac1ddb73446914ab473803deb8f19d,
     type: 3}
-  _shieldGO: {fileID: 0}
+  _shieldGO: {fileID: 3524218878823213060}
 --- !u!1 &3524218878823213060
 GameObject:
   m_ObjectHideFlags: 0
